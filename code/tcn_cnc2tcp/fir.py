@@ -141,7 +141,9 @@ def normal_equations_fft(cfg, programs: Sequence, taps: int, log=print):
             a_mat[b * taps:(b + 1) * taps, c * taps:(c + 1) * taps] = toeplitz(
                 r[taps - 1:], r[taps - 1::-1])
     a_mat -= tail
-    return a_mat, r_ue.reshape(p, 3), n_used
+    # int(): the segment bounds are numpy integers, so n_used comes out int64
+    # and would otherwise reach json.dumps in save() as a non-serialisable type
+    return a_mat, r_ue.reshape(p, 3), int(n_used)
 
 
 # --------------------------------------------------------------------------- #
@@ -352,11 +354,26 @@ def default_path(cfg, run: str) -> Path:
     return Path(cfg.paths.runs_out_dir) / run / "fir_baseline.npz"
 
 
+def _jsonable(o):
+    """numpy scalars/arrays -> plain python, for the metadata blob.
+
+    Counts and indices picked up from numpy operations arrive here as int64 /
+    float32, which json.dumps rejects. Converting on the way out keeps the
+    metadata readable by any reader and costs nothing.
+    """
+    if isinstance(o, np.generic):
+        return o.item()
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    raise TypeError(f"not JSON serialisable: {type(o).__name__}")
+
+
 def save(path: Path, info: Dict[str, object]) -> Path:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = {k: v for k, v in info.items() if k != "h"}
-    np.savez_compressed(path, h=info["h"], meta=json.dumps(meta))
+    np.savez_compressed(path, h=info["h"],
+                        meta=json.dumps(meta, default=_jsonable))
     return path
 
 
