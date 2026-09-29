@@ -354,7 +354,7 @@ def default_path(cfg, run: str) -> Path:
     return Path(cfg.paths.runs_out_dir) / run / "fir_baseline.npz"
 
 
-def _jsonable(o):
+def jsonable(o):
     """numpy scalars/arrays -> plain python, for the metadata blob.
 
     Counts and indices picked up from numpy operations arrive here as int64 /
@@ -373,7 +373,7 @@ def save(path: Path, info: Dict[str, object]) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = {k: v for k, v in info.items() if k != "h"}
     np.savez_compressed(path, h=info["h"],
-                        meta=json.dumps(meta, default=_jsonable))
+                        meta=json.dumps(meta, default=jsonable))
     return path
 
 

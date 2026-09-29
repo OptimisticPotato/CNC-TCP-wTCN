@@ -85,11 +85,15 @@ def main() -> int:
                    dc_penalty=args.dc_penalty)
     path = fir.save(fir.default_path(cfg, args.run), info)
     h = info["h"]
+    # every CSV below lands here, and 06_evaluate.py -- which normally creates
+    # it -- has not run yet when the FIR is identified first
+    report_dir = cfg.paths.report_dir / args.run
+    report_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"\nselected ridge {info['ridge_rel']:.1e} (lambda {info['lam']:.3e}) "
           f"on the {info['selected_on']} split")
     pd.DataFrame(info["sweep"]).to_csv(
-        cfg.paths.report_dir / args.run / "metric9_fir_ridge_sweep.csv",
+        report_dir / "metric9_fir_ridge_sweep.csv",
         index=False, lineterminator="\n")
     print("DC gain -- SPEC section 2 says sum(g) ~ 0: a constant velocity "
           "must leave no error")
@@ -98,7 +102,7 @@ def main() -> int:
             f"{v:+.4f}" for v in np.asarray(info["dc_gain"])[a]))
 
     summ = pd.DataFrame(fir.impulse_response_summary(h, cfg.data.dt))
-    summ.to_csv(cfg.paths.report_dir / args.run / "metric9_fir_kernels.csv",
+    summ.to_csv(report_dir / "metric9_fir_kernels.csv",
                 index=False, lineterminator="\n")
     print("\nkernel summary (energy-weighted centre, tail beyond 100 ms)")
     print(summ.sort_values("energy", ascending=False).head(9)
@@ -117,11 +121,11 @@ def main() -> int:
     print("\ntest split, FIR alone")
     print(pooled.to_string(index=False, float_format=lambda v: f"{v:8.3f}"))
 
-    (cfg.paths.report_dir / args.run).mkdir(parents=True, exist_ok=True)
-    pooled.to_csv(cfg.paths.report_dir / args.run / "metric9_fir_only.csv",
+    pooled.to_csv(report_dir / "metric9_fir_only.csv",
                   index=False, lineterminator="\n")
-    (cfg.paths.report_dir / args.run / "metric9_fir_fit.json").write_text(
-        json.dumps({k: v for k, v in info.items() if k != "h"}, indent=2),
+    (report_dir / "metric9_fir_fit.json").write_text(
+        json.dumps({k: v for k, v in info.items() if k != "h"}, indent=2,
+                   default=fir.jsonable),
         encoding="utf-8")
 
     print(f"\nwrote {path}")
