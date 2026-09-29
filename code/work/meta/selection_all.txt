@@ -1,5 +1,5 @@
 # DOE selection 'all'  n=844
-# seed=7  index=C:/Users/smj01/AppData/Local/Temp/claude/C--Runs/041eccf5-0993-4535-ac0d-82ad6f212cb7/scratchpad/repo/code/work/meta/index.csv
+# seed=7  index=C:\Visual Stduio Code\CNC2TCP\code\work\meta\index.csv
 # every indexed run (no criterion)
 DOE_0001_RANDOMWALK3D_FINE_F500_S01
 DOE_0002_RANDOMWALK3D_FINE_F500_S02
