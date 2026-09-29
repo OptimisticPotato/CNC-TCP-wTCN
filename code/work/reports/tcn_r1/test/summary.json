@@ -1,0 +1,78 @@
+{
+  "run": "tcn_r1",
+  "split": "test",
+  "checkpoint": "best.pt",
+  "epoch": 101,
+  "programs": [
+    "DOE_1008_ARC_TRANSITION_R2_F1000_S09",
+    "DOE_1013_ARC_TRANSITION_R4_F15000_S14",
+    "DOE_1040_HELIX_ENTRY_R2P5_F10000_S21",
+    "DOE_1072_CORNER_SEQUENCE_K1_F3000_S013",
+    "DOE_1387_FREEFORM_POCKET_CLEARING_K3_F3000_S088"
+  ],
+  "receptive_field_ms": 254.5,
+  "pooled": [
+    {
+      "segment": "G00",
+      "n": 21743,
+      "programs": 5,
+      "rmse_x_um": 10.3740591022,
+      "maxabs_x_um": 94.3048706055,
+      "true_rms_x_um": 22.6452656093,
+      "rmse_y_um": 3.4086427394,
+      "maxabs_y_um": 34.4437713623,
+      "true_rms_y_um": 8.0220399589,
+      "rmse_z_um": 2.0967467324,
+      "maxabs_z_um": 18.4978599548,
+      "true_rms_z_um": 29.5594560819
+    },
+    {
+      "segment": "G01",
+      "n": 81985,
+      "programs": 5,
+      "rmse_x_um": 1.6984617194,
+      "maxabs_x_um": 20.3550071716,
+      "true_rms_x_um": 114.8262176662,
+      "rmse_y_um": 1.660863609,
+      "maxabs_y_um": 12.4375991821,
+      "true_rms_y_um": 58.5957081119,
+      "rmse_z_um": 1.7286391032,
+      "maxabs_z_um": 9.3117523193,
+      "true_rms_z_um": 21.214517866
+    },
+    {
+      "segment": "all",
+      "n": 103728,
+      "programs": 5,
+      "rmse_x_um": 4.9838872201,
+      "maxabs_x_um": 94.3048706055,
+      "true_rms_x_um": 102.6097439103,
+      "rmse_y_um": 2.148427492,
+      "maxabs_y_um": 34.4437713623,
+      "true_rms_y_um": 52.2229875551,
+      "rmse_z_um": 1.8120055418,
+      "maxabs_z_um": 18.4978599548,
+      "true_rms_z_um": 23.2135961
+    }
+  ],
+  "spectral_mean": [
+    {
+      "axis": "x",
+      "coh_mean": 0.8238503337,
+      "coh_pw_mean": 0.9290118814,
+      "psd_ratio": 0.9441928387
+    },
+    {
+      "axis": "y",
+      "coh_mean": 0.7689453363,
+      "coh_pw_mean": 0.94958601,
+      "psd_ratio": 0.9530049324
+    },
+    {
+      "axis": "z",
+      "coh_mean": 0.7256040215,
+      "coh_pw_mean": 0.9965140581,
+      "psd_ratio": 0.962262094
+    }
+  ]
+}

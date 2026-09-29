@@ -1,0 +1,6 @@
+# Install torch separately (CUDA build) -- see setup_venv.ps1
+numpy>=1.24,<2.2
+scipy>=1.10
+pandas>=2.0
+matplotlib>=3.7
+tqdm>=4.65

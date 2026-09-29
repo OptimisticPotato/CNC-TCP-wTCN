@@ -1,0 +1,18 @@
+{
+  "rapid_feed_mm_min": 40000.0,
+  "detected": true,
+  "reason": "mode of 844 per-run maxima (100% agree)",
+  "n_runs": 844,
+  "feed_levels": [
+    500.0,
+    1000.0,
+    1500.0,
+    3000.0,
+    5000.0,
+    6000.0,
+    7500.0,
+    10000.0,
+    15000.0,
+    40000.0
+  ]
+}

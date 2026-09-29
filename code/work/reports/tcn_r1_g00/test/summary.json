@@ -1,0 +1,78 @@
+{
+  "run": "tcn_r1_g00",
+  "split": "test",
+  "checkpoint": "best.pt",
+  "epoch": 83,
+  "programs": [
+    "DOE_1008_ARC_TRANSITION_R2_F1000_S09",
+    "DOE_1013_ARC_TRANSITION_R4_F15000_S14",
+    "DOE_1040_HELIX_ENTRY_R2P5_F10000_S21",
+    "DOE_1072_CORNER_SEQUENCE_K1_F3000_S013",
+    "DOE_1387_FREEFORM_POCKET_CLEARING_K3_F3000_S088"
+  ],
+  "receptive_field_ms": 254.5,
+  "pooled": [
+    {
+      "segment": "G00",
+      "n": 21743,
+      "programs": 5,
+      "rmse_x_um": 8.6240737672,
+      "maxabs_x_um": 81.855758667,
+      "true_rms_x_um": 22.6452656093,
+      "rmse_y_um": 4.4765878256,
+      "maxabs_y_um": 41.8957862854,
+      "true_rms_y_um": 8.0220399589,
+      "rmse_z_um": 1.3698824364,
+      "maxabs_z_um": 9.4624652863,
+      "true_rms_z_um": 29.5594560819
+    },
+    {
+      "segment": "G01",
+      "n": 81985,
+      "programs": 5,
+      "rmse_x_um": 2.3123420498,
+      "maxabs_x_um": 18.2786254883,
+      "true_rms_x_um": 114.8262176662,
+      "rmse_y_um": 2.7124683732,
+      "maxabs_y_um": 14.9332885742,
+      "true_rms_y_um": 58.5957081119,
+      "rmse_z_um": 2.1452439211,
+      "maxabs_z_um": 10.4950675964,
+      "true_rms_z_um": 21.214517866
+    },
+    {
+      "segment": "all",
+      "n": 103728,
+      "programs": 5,
+      "rmse_x_um": 4.4515401827,
+      "maxabs_x_um": 81.855758667,
+      "true_rms_x_um": 102.6097439103,
+      "rmse_y_um": 3.1647910697,
+      "maxabs_y_um": 41.8957862854,
+      "true_rms_y_um": 52.2229875551,
+      "rmse_z_um": 2.0076766627,
+      "maxabs_z_um": 10.4950675964,
+      "true_rms_z_um": 23.2135961
+    }
+  ],
+  "spectral_mean": [
+    {
+      "axis": "x",
+      "coh_mean": 0.8070302367,
+      "coh_pw_mean": 0.9486173034,
+      "psd_ratio": 0.9508524179
+    },
+    {
+      "axis": "y",
+      "coh_mean": 0.7626102209,
+      "coh_pw_mean": 0.915646255,
+      "psd_ratio": 1.0932347536
+    },
+    {
+      "axis": "z",
+      "coh_mean": 0.6540802956,
+      "coh_pw_mean": 0.9984294653,
+      "psd_ratio": 0.9937101126
+    }
+  ]
+}
