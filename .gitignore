@@ -1,2 +1,10 @@
 /Runs
 /.venv
+
+# python bytecode
+__pycache__/
+*.py[cod]
+
+# per-run loader cache: derived from Runs/, rebuilt automatically on first use.
+# ~1.5 MB per program; nothing here is a result.
+code/work/cache/

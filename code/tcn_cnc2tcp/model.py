@@ -147,6 +147,29 @@ class TCN(nn.Module):
         return float(self(z).abs().max())
 
     @torch.no_grad()
+    def check_homogeneity(self, length: int = 512, alpha: float = 2.0,
+                          device=None) -> float:
+        """Max relative violation of ``f(alpha*u) == alpha*f(u)`` for alpha > 0.
+
+        With no bias anywhere and an activation satisfying f(0)=0, a ReLU net is
+        *positively homogeneous of degree 1*: doubling the commanded motion
+        doubles the predicted error, exactly. That is a consequence of the
+        spec's bias ban, and it has a cost -- amplitude-dependent saturation
+        (an axis hitting its acceleration limit) cannot be represented, no
+        matter how the loss is weighted. Direction-dependent effects (quadrant
+        glitch, friction reversal) and cross-axis interaction still can.
+
+        Returns ~0 for ReLU, clearly non-zero for tanh, which trades this
+        property for the ability to saturate.
+        """
+        dev = device or next(self.parameters()).device
+        c = self.blocks[0].conv1.in_channels
+        u = torch.randn(1, c, length, device=dev)
+        a = self(u) * alpha
+        b = self(u * alpha)
+        return float((a - b).abs().max() / a.abs().max().clamp_min(1e-12))
+
+    @torch.no_grad()
     def check_causality(self, length: int = 512, device=None) -> float:
         """Perturb the last input sample; anything but the last output moving
         would mean the net peeks into the future. Returns the max leak."""

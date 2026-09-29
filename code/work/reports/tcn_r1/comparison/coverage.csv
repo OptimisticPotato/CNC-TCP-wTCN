@@ -1,0 +1,5 @@
+trained_on,n_programs,test_g01_median,test_g01_max
+22 train programs (other families),22,0.43540483713150024,0.5376328229904175
+1 program(s) from the test families,1,0.0186499934643507,0.031017545610666275
+3 program(s) from the test families,3,0.0031225585844367743,0.01546743419021368
+8 program(s) from the test families,8,0.0012460622237995267,0.016582148149609566

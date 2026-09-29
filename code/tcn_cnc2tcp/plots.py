@@ -30,10 +30,19 @@ def _save(fig, path: Path) -> Path:
     return path
 
 
+REF_COLOR = "#2e86ab"
+
+
 def timeseries(path: Path, t: np.ndarray, e_true: np.ndarray, e_pred: np.ndarray,
                valid: np.ndarray, warmup: int, title: str = "",
-               span_s: float = 1.0, zoom_s: float = 0.06) -> Path:
-    """Overlay of true and predicted e, plus a zoom on the largest error."""
+               span_s: float = 1.0, zoom_s: float = 0.06,
+               e_ref: Optional[np.ndarray] = None,
+               ref_label: str = "FIR") -> Path:
+    """Overlay of true and predicted e, plus a zoom on the largest error.
+
+    ``e_ref`` draws a second prediction (the linear FIR baseline) in the same
+    axes, so the comparison is one picture rather than two.
+    """
     m = valid.copy()
     m[:warmup] = False
     idx = np.flatnonzero(m)
@@ -50,7 +59,10 @@ def timeseries(path: Path, t: np.ndarray, e_true: np.ndarray, e_pred: np.ndarray
     for i in range(3):
         for j, (a, b) in enumerate(((lo, hi), (zl, zh))):
             ax = axes[i, j]
-            ax.plot(t[a:b], e_true[a:b, i], lw=1.2, label="true", color="#222222")
+            ax.plot(t[a:b], e_true[a:b, i], lw=1.4, label="true", color="#222222")
+            if e_ref is not None:
+                ax.plot(t[a:b], e_ref[a:b, i], lw=1.0, label=ref_label,
+                        color=REF_COLOR, ls="--", alpha=0.9)
             ax.plot(t[a:b], e_pred[a:b, i], lw=1.0, label="TCN", color="#d1495b")
             ax.set_ylabel(f"e_{AXES[i]} [um]")
             ax.grid(alpha=0.25)
@@ -66,7 +78,9 @@ def timeseries(path: Path, t: np.ndarray, e_true: np.ndarray, e_pred: np.ndarray
 
 def residual_psd(path: Path, e_true: np.ndarray, e_pred: np.ndarray,
                  valid: np.ndarray, warmup: int, fs: float,
-                 nperseg: int = 2048, title: str = "") -> Path:
+                 nperseg: int = 2048, title: str = "",
+                 e_ref: Optional[np.ndarray] = None,
+                 ref_label: str = "FIR") -> Path:
     m = valid.copy()
     m[:warmup] = False
     fig, axes = plt.subplots(1, 3, figsize=(13, 3.6), sharey=True)
@@ -75,8 +89,13 @@ def residual_psd(path: Path, e_true: np.ndarray, e_pred: np.ndarray,
         r = np.where(m, e_true[:, i] - e_pred[:, i], 0.0)
         f, pt = psd(x, fs, nperseg)
         _, pr = psd(r, fs, nperseg)
-        ax.semilogy(f, pt, lw=1.0, color="#222222", label="true e")
-        ax.semilogy(f, pr, lw=1.0, color="#d1495b", label="residual")
+        ax.semilogy(f, pt, lw=1.2, color="#222222", label="true e")
+        if e_ref is not None:
+            rr = np.where(m, e_true[:, i] - e_ref[:, i], 0.0)
+            _, prr = psd(rr, fs, nperseg)
+            ax.semilogy(f, prr, lw=1.0, color=REF_COLOR, ls="--",
+                        label=f"residual {ref_label}")
+        ax.semilogy(f, pr, lw=1.0, color="#d1495b", label="residual TCN")
         ax.set_xlim(0, min(300.0, fs / 2))
         ax.set_xlabel("frequency [Hz]")
         ax.set_title(f"axis {AXES[i]}", fontsize=10)
@@ -90,7 +109,9 @@ def residual_psd(path: Path, e_true: np.ndarray, e_pred: np.ndarray,
 def reversal_alignment(path: Path, cnc: np.ndarray, e_true: np.ndarray,
                        e_pred: np.ndarray, valid: np.ndarray, warmup: int,
                        dt: float, pre_ms: float = 20.0, post_ms: float = 60.0,
-                       min_speed: float = 1e-5, title: str = "") -> Path:
+                       min_speed: float = 1e-5, title: str = "",
+                       e_ref: Optional[np.ndarray] = None,
+                       ref_label: str = "FIR") -> Path:
     """Average residual around the instants where an axis reverses direction.
 
     A purely linear model leaves a signature here (quadrant glitch / friction
@@ -126,11 +147,20 @@ def reversal_alignment(path: Path, cnc: np.ndarray, e_true: np.ndarray,
         seg_p = np.stack([e_pred[h - n_pre:h + n_post, i] for h in hits])
         sign = np.sign(s[hits])[:, None]              # fold both directions together
         res = (seg_t - seg_p) * sign
-        ax.plot(tau, (seg_t * sign).mean(0), color="#222222", lw=1.2, label="true e")
+        ax.plot(tau, (seg_t * sign).mean(0), color="#222222", lw=1.4, label="true e")
         ax.plot(tau, (seg_p * sign).mean(0), color="#d1495b", lw=1.0, label="TCN")
-        ax.plot(tau, res.mean(0), color="#2e86ab", lw=1.2, label="residual")
+        ax.plot(tau, res.mean(0), color="#d1495b", lw=1.2, ls=":",
+                label="residual TCN")
         ax.fill_between(tau, res.mean(0) - res.std(0), res.mean(0) + res.std(0),
-                        color="#2e86ab", alpha=0.15)
+                        color="#d1495b", alpha=0.12)
+        if e_ref is not None:
+            seg_r = np.stack([e_ref[h - n_pre:h + n_post, i] for h in hits])
+            res_r = (seg_t - seg_r) * sign
+            ax.plot(tau, (seg_r * sign).mean(0), color=REF_COLOR, lw=1.0, ls="--",
+                    label=ref_label)
+            ax.plot(tau, res_r.mean(0), color=REF_COLOR, lw=1.2, ls=":",
+                    label=f"residual {ref_label}")
+        ax.axhline(0, color="k", lw=0.5, alpha=0.4)
         ax.axvline(0, color="k", lw=0.6, ls="--")
         ax.set_xlabel("time from reversal [ms]")
         ax.set_title(f"axis {AXES[i]}  (n={hits.size})", fontsize=10)

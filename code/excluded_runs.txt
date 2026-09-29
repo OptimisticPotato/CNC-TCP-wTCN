@@ -20,6 +20,33 @@ DOE_9999
 # group costs a factor 1.0 in residual, across groups a factor 4.2.
 # These runs have higher gain and more phase lag on all three axes
 # (+5 % at 10 Hz, +11 % at 15 Hz, +49 % at 25 Hz on X).
+#
+# They are NOT noise, and they are not a nonlinearity. Fitting a second 1021-tap
+# FIR on 30 of them gives held-out G01 RMSE 0.0039 um median on its own group --
+# as clean as the kept runs (0.0011 um). Each group is exactly one LTI operator;
+# applying either kernel to the other group costs 8.4 / 11.2 um, ~3000x. An
+# earlier attempt that used only a handful of programs failed (10.6 um) purely
+# from under-determination, not because the group is incoherent.
+#
+# The two operators differ by ONE scalar: a uniform time dilation of 1.253.
+# Dominant frequency per axis, kept vs these: X 38.8/31.0, Y 115.2/92.0,
+# Z 74.0/59.1 Hz -- ratios 1.2516 / 1.2522 / 1.2521, equal to four significant
+# figures. Energy centroids scale by the same 1.25-1.26. Stretching the kept
+# kernel by 1.253 matches the diagonal G01 channels to 1.4-2.2 % residual,
+# against 78-121 % if the two are assumed equal. That signature -- every axis
+# moving together -- is a position-loop gain change, not tool or workpiece
+# geometry; the new simulator exposes it as Kp (see /api/cm/c6/tune-step).
+# Predicted and untested: re-running a kept program at Kp x 0.798 should
+# reproduce this group's kernel.
+#
+# Assigning 199 sampled runs to whichever kernel fits better reproduces this
+# file's partition with zero disagreement (178 -> kept, 21 -> here), and 197 of
+# the 199 land within 0.07 um of one operator or the other. Two do not:
+# DOE_0426_RANDOMWALK3D_MEDIUM_LSHORT_F15000_S02 (158 um under both) and
+# DOE_0269_JITTER_LSHORT_F3000_S01 (7.0 um) -- possibly a third setting.
+#
+# So this list is a *label*, not a defect list. These 120 runs are usable as a
+# second-parameter dataset; nothing here is known to be wrong with them.
 DOE_0014_RANDOMWALK3D_FINE_F1500_S02
 DOE_0027_RANDOMWALK3D_FINE_F3000_S03
 DOE_0034_RANDOMWALK3D_ZACTIVE_F3000_S01

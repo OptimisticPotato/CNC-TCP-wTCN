@@ -223,6 +223,12 @@ class Eval:
     ndoe_sweep: Tuple[int, ...] = (8, 16, 32, 64)            # metric 6
     export_tcp_csv: bool = True   # hand-off to an external form-error pipeline
     nperseg: int = 2048           # PSD / coherence window (metric 4)
+    #: taps for the FIR reference (metric 9). Measured on this dataset with
+    #: clean programs and plain least squares, held-out G01 RMSE:
+    #:   200 taps (100 ms) 3.2 um | 509 (254 ms) 0.18 um | 1021 (510 ms) 0.005 um
+    #: The truncation tail decays with tau ~ 50-70 ms, so 100 ms is far too
+    #: short here even though the dominant 37 Hz mode settles in ~12 ms.
+    fir_taps: int = 1021
     psd_band_hz: Tuple[float, float] = (0.0, 200.0)
 
 
