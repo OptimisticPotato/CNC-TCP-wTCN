@@ -1,0 +1,63 @@
+
+=== tcn_r3 ===
+model: 193,050 parameters | RF 1021 samples (510.5 ms) | device cuda
+structure checks: zero-input output = 0.000e+00 (must be 0), future leak = 0.000e+00 (must be 0)
+best.pt selected on: val_rmse_g01_um
+epoch   1/120  loss 2574.4541  mse 2569.1014  val RMSE 17.359 um  (G01 16.144)  26.4s
+epoch   2/120  loss 412.4292  mse 409.9559  val RMSE 10.708 um  (G01 7.610)  25.8s
+epoch   3/120  loss 143.8129  mse 142.2372  val RMSE 9.697 um  (G01 6.569)  26.0s
+epoch   4/120  loss 89.5321  mse 88.1513  val RMSE 9.108 um  (G01 6.157)  25.8s
+epoch   5/120  loss 75.5284  mse 74.2353  val RMSE 7.883 um  (G01 5.544)  25.9s
+epoch   6/120  loss 51.7149  mse 50.5214  val RMSE 6.899 um  (G01 5.125)  25.8s
+epoch   7/120  loss 54.6930  mse 53.5304  val RMSE 6.155 um  (G01 4.991)  25.6s
+epoch   8/120  loss 36.1630  mse 35.0856  val RMSE 5.736 um  (G01 4.770)  25.7s
+epoch   9/120  loss 38.9563  mse 37.8955  val RMSE 5.657 um  (G01 4.688)  25.8s
+epoch  10/120  loss 26.4718  mse 25.4650  val RMSE 6.052 um  (G01 4.907)  25.9s
+epoch  11/120  loss 26.6915  mse 25.7082  val RMSE 5.066 um  (G01 4.421)  25.8s
+epoch  12/120  loss 22.9599  mse 21.9976  val RMSE 5.435 um  (G01 4.514)  25.9s
+epoch  13/120  loss 24.2512  mse 23.2997  val RMSE 4.839 um  (G01 4.274)  25.7s
+epoch  14/120  loss 22.2103  mse 21.2688  val RMSE 4.699 um  (G01 4.309)  25.5s
+epoch  15/120  loss 19.2565  mse 18.3432  val RMSE 4.605 um  (G01 4.250)  25.7s
+epoch  16/120  loss 18.4573  mse 17.5529  val RMSE 4.573 um  (G01 4.172)  25.7s
+epoch  17/120  loss 17.4781  mse 16.5849  val RMSE 4.498 um  (G01 4.154)  25.7s
+epoch  18/120  loss 13.3896  mse 12.5218  val RMSE 4.546 um  (G01 4.184)  25.6s
+epoch  19/120  loss 14.5397  mse 13.6641  val RMSE 4.287 um  (G01 4.046)  25.6s
+epoch  20/120  loss 16.6456  mse 15.7689  val RMSE 4.381 um  (G01 4.095)  25.5s
+epoch  21/120  loss 14.5318  mse 13.6662  val RMSE 4.188 um  (G01 4.035)  25.6s
+epoch  22/120  loss 15.1561  mse 14.2948  val RMSE 4.379 um  (G01 4.136)  25.7s
+epoch  23/120  loss 10.6289  mse 9.7964  val RMSE 4.183 um  (G01 4.011)  25.8s
+epoch  24/120  loss 10.4657  mse 9.6401  val RMSE 4.150 um  (G01 4.022)  25.6s
+epoch  25/120  loss 9.3276  mse 8.5220  val RMSE 3.999 um  (G01 3.897)  25.7s
+epoch  26/120  loss 11.0853  mse 10.2684  val RMSE 3.952 um  (G01 3.919)  25.8s
+epoch  27/120  loss 9.5861  mse 8.7895  val RMSE 3.923 um  (G01 3.935)  25.7s
+epoch  28/120  loss 10.3673  mse 9.5703  val RMSE 4.114 um  (G01 4.012)  25.5s
+epoch  29/120  loss 8.8183  mse 8.0400  val RMSE 3.994 um  (G01 4.003)  25.7s
+epoch  30/120  loss 8.4339  mse 7.6564  val RMSE 3.965 um  (G01 3.974)  25.7s
+epoch  31/120  loss 7.8005  mse 7.0351  val RMSE 3.913 um  (G01 3.967)  25.7s
+epoch  32/120  loss 7.5922  mse 6.8301  val RMSE 3.794 um  (G01 3.850)  25.5s
+epoch  33/120  loss 6.1403  mse 5.3955  val RMSE 3.845 um  (G01 3.927)  25.8s
+epoch  34/120  loss 6.6862  mse 5.9505  val RMSE 3.792 um  (G01 3.881)  25.7s
+epoch  35/120  loss 8.3651  mse 7.6029  val RMSE 4.041 um  (G01 4.022)  25.5s
+epoch  36/120  loss 6.3752  mse 5.6442  val RMSE 3.925 um  (G01 3.965)  25.6s
+epoch  37/120  loss 6.4696  mse 5.7427  val RMSE 3.989 um  (G01 4.068)  25.4s
+epoch  38/120  loss 5.5423  mse 4.8210  val RMSE 3.822 um  (G01 3.930)  25.5s
+epoch  39/120  loss 5.7204  mse 5.0017  val RMSE 3.838 um  (G01 3.938)  25.5s
+epoch  40/120  loss 6.4606  mse 5.7325  val RMSE 3.796 um  (G01 3.922)  25.6s
+epoch  41/120  loss 5.8998  mse 5.1827  val RMSE 3.886 um  (G01 4.030)  25.5s
+epoch  42/120  loss 7.1146  mse 6.3953  val RMSE 3.677 um  (G01 3.815)  25.5s
+epoch  43/120  loss 4.7255  mse 4.0118  val RMSE 3.770 um  (G01 3.877)  25.6s
+epoch  44/120  loss 4.8816  mse 4.1731  val RMSE 3.845 um  (G01 3.987)  25.5s
+epoch  45/120  loss 4.5610  mse 3.8612  val RMSE 3.840 um  (G01 3.968)  25.6s
+epoch  46/120  loss 4.6881  mse 3.9955  val RMSE 3.774 um  (G01 3.869)  25.6s
+epoch  47/120  loss 4.2873  mse 3.5885  val RMSE 3.797 um  (G01 3.887)  25.4s
+epoch  48/120  loss 4.1427  mse 3.4639  val RMSE 3.729 um  (G01 3.899)  25.6s
+epoch  49/120  loss 4.1902  mse 3.5086  val RMSE 3.745 um  (G01 3.913)  25.6s
+epoch  50/120  loss 3.9008  mse 3.2212  val RMSE 3.756 um  (G01 3.927)  25.6s
+epoch  51/120  loss 4.1624  mse 3.4909  val RMSE 3.739 um  (G01 3.903)  25.7s
+epoch  52/120  loss 3.5352  mse 2.8701  val RMSE 3.774 um  (G01 3.941)  25.5s
+epoch  53/120  loss 3.5685  mse 2.9002  val RMSE 3.710 um  (G01 3.890)  25.5s
+epoch  54/120  loss 3.0298  mse 2.3740  val RMSE 3.675 um  (G01 3.835)  25.6s
+epoch  55/120  loss 2.9740  mse 2.3265  val RMSE 3.848 um  (G01 3.981)  25.6s
+epoch  56/120  loss 3.2764  mse 2.6297  val RMSE 3.674 um  (G01 3.851)  25.6s
+epoch  57/120  loss 2.7594  mse 2.1186  val RMSE 3.701 um  (G01 3.879)  25.4s
+early stop: no improvement for 15 epochs

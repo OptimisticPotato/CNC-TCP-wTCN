@@ -1,0 +1,141 @@
+{
+  "taps": 1021,
+  "ridge_rel": 0.0,
+  "lam": 0.0,
+  "dc_penalty": 0.0,
+  "selected_on": "val",
+  "sweep": [
+    {
+      "ridge_rel": 0.0,
+      "lam": 0.0,
+      "train_rmse_g01_um": 0.0021449470745676783,
+      "dc_gain_absmax": 0.003416882881494221,
+      "coef_absmax": 406.6951107183691,
+      "val_rmse_g01_um": 0.0015233938331563706,
+      "score": 0.0015233938331563706
+    },
+    {
+      "ridge_rel": 1e-09,
+      "lam": 1.5143360949279455e-05,
+      "train_rmse_g01_um": 0.0022206279333412578,
+      "dc_gain_absmax": 0.005013366195569802,
+      "coef_absmax": 406.6843969481898,
+      "val_rmse_g01_um": 0.0015917294216055693,
+      "score": 0.0015917294216055693
+    },
+    {
+      "ridge_rel": 1e-08,
+      "lam": 0.00015143360949279456,
+      "train_rmse_g01_um": 0.003216769236698614,
+      "dc_gain_absmax": 0.021823334742964384,
+      "coef_absmax": 453.12496690830085,
+      "val_rmse_g01_um": 0.0027415196912661983,
+      "score": 0.0027415196912661983
+    },
+    {
+      "ridge_rel": 1e-07,
+      "lam": 0.0015143360949279455,
+      "train_rmse_g01_um": 0.010162870881534202,
+      "dc_gain_absmax": 0.18369525255646302,
+      "coef_absmax": 436.64803212960675,
+      "val_rmse_g01_um": 0.009396950807257226,
+      "score": 0.009396950807257226
+    },
+    {
+      "ridge_rel": 1e-06,
+      "lam": 0.015143360949279453,
+      "train_rmse_g01_um": 0.0496012469299607,
+      "dc_gain_absmax": 0.861562458938689,
+      "coef_absmax": 421.66762476862453,
+      "val_rmse_g01_um": 0.043124836810976515,
+      "score": 0.043124836810976515
+    },
+    {
+      "ridge_rel": 1e-05,
+      "lam": 0.15143360949279455,
+      "train_rmse_g01_um": 0.2541795989696184,
+      "dc_gain_absmax": 5.12003357577516,
+      "coef_absmax": 376.26112416441634,
+      "val_rmse_g01_um": 0.1949598615360943,
+      "score": 0.1949598615360943
+    },
+    {
+      "ridge_rel": 0.0001,
+      "lam": 1.5143360949279456,
+      "train_rmse_g01_um": 1.061867994468637,
+      "dc_gain_absmax": 18.039082633866844,
+      "coef_absmax": 414.9052935969058,
+      "val_rmse_g01_um": 0.6951825435114591,
+      "score": 0.6951825435114591
+    },
+    {
+      "ridge_rel": 0.001,
+      "lam": 15.143360949279455,
+      "train_rmse_g01_um": 3.2595134735490823,
+      "dc_gain_absmax": 52.53843444503059,
+      "coef_absmax": 390.7001519873385,
+      "val_rmse_g01_um": 1.8141542921439082,
+      "score": 1.8141542921439082
+    }
+  ],
+  "n_samples": 493935,
+  "n_programs": 22,
+  "programs": [
+    "DOE_1374_FREEFORM_POCKET_CLEARING_K5_F5000_S075",
+    "DOE_1048_HELIX_ENTRY_R2P5_F15000_S29",
+    "DOE_1041_HELIX_ENTRY_R4P0_F15000_S22",
+    "DOE_1034_HELIX_ENTRY_R6P0_F15000_S15",
+    "DOE_1055_HELIX_ENTRY_R8P0_F15000_S36",
+    "DOE_0272_JITTER_LLONG_F3000_S02",
+    "DOE_1433_MULTIPATH_RASTER_A0_F15000_S34",
+    "DOE_1419_MULTIPATH_RASTER_A30_F15000_S20",
+    "DOE_1412_MULTIPATH_RASTER_A45_F15000_S13",
+    "DOE_1447_MULTIPATH_RASTER_A90_F15000_S48",
+    "DOE_1461_RAMP_DEPTH_D0P2_F15000_S02",
+    "DOE_1468_RAMP_DEPTH_D0P7_F15000_S09",
+    "DOE_1064_CORNER_SEQUENCE_K1_F1000_S005",
+    "DOE_1111_CORNER_SEQUENCE_K4_F15000_S052",
+    "DOE_1370_FREEFORM_POCKET_CLEARING_K1_F15000_S071",
+    "DOE_1391_FREEFORM_POCKET_CLEARING_K2_F15000_S092",
+    "DOE_1342_FREEFORM_POCKET_CLEARING_K3_F15000_S043",
+    "DOE_1383_FREEFORM_POCKET_CLEARING_K4_F10000_S084",
+    "DOE_1349_FREEFORM_POCKET_CLEARING_K5_F15000_S050",
+    "DOE_1362_FREEFORM_POCKET_CLEARING_K3_F10000_S063",
+    "DOE_1319_FREEFORM_POCKET_CLEARING_K5_F7500_S020",
+    "DOE_1334_FREEFORM_POCKET_CLEARING_K5_F10000_S035"
+  ],
+  "val_programs": [
+    "DOE_1063_CORNER_SEQUENCE_K4_F500_S004",
+    "DOE_1328_FREEFORM_POCKET_CLEARING_K4_F15000_S029",
+    "DOE_1341_FREEFORM_POCKET_CLEARING_K2_F10000_S042",
+    "DOE_1347_FREEFORM_POCKET_CLEARING_K3_F7500_S048",
+    "DOE_1355_FREEFORM_POCKET_CLEARING_K1_F10000_S056"
+  ],
+  "weighted": false,
+  "dc_gain": [
+    [
+      0.0017678521534278957,
+      0.0015699491868064186,
+      0.00029098364756052764,
+      -0.0005798640570127134,
+      0.00047286652616396196,
+      -2.0602458322249717e-05
+    ],
+    [
+      -0.0019709031406938138,
+      -0.0025785190335714248,
+      -0.00034531818171990025,
+      -0.0010762724387092248,
+      0.0013080256694379955,
+      -3.135333021653253e-05
+    ],
+    [
+      -0.003416882881494221,
+      -0.0027688165477286475,
+      -0.000633707239003467,
+      0.0005372757682087226,
+      -0.0006556958970485027,
+      0.0002005898535344386
+    ]
+  ]
+}

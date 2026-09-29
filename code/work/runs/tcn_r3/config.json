@@ -1,0 +1,123 @@
+{
+  "paths": {
+    "runs_dir": "C:\\Visual Stduio Code\\CNC2TCP\\Runs",
+    "work_dir": "C:\\Visual Stduio Code\\CNC2TCP\\code\\work",
+    "exclude_file": "C:\\Visual Stduio Code\\CNC2TCP\\code\\excluded_runs.txt",
+    "run_glob": "DOE_*",
+    "csv_glob": "*_out.csv"
+  },
+  "data": {
+    "dt": 0.0005,
+    "dt_tol": 0.001,
+    "dt_max_ratio": 5.4,
+    "rapid_feed_mm_min": 40000.0,
+    "rapid_feed_auto": true,
+    "rapid_feed_tol": 0.99,
+    "rapid_feed_min_gap": 1.5,
+    "g00_source": "feed",
+    "g00_speed_threshold": 20000.0,
+    "drop_nan_targets": true,
+    "val_fraction": 0.15,
+    "test_fraction": 0.15,
+    "split_seed": 20260922
+  },
+  "select": {
+    "n_programs": 32,
+    "tag": "r1",
+    "exclude_substrings": [],
+    "min_per_feed_bucket": 2,
+    "min_per_family": 1,
+    "selection_seed": 7
+  },
+  "model": {
+    "in_channels": 6,
+    "out_channels": 3,
+    "channels": 48,
+    "kernel_size": 5,
+    "dilations": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "activation": "relu",
+    "norm": "none",
+    "dropout": 0.0,
+    "linear_skip": true,
+    "linear_skip_taps": 0
+  },
+  "loss": {
+    "lambda_diff": 0.5,
+    "lambda_stft": 0.3,
+    "stft_ffts": [
+      256,
+      512,
+      1024
+    ],
+    "stft_hops": [
+      64,
+      128,
+      256
+    ],
+    "g00_weight": 0.1
+  },
+  "train": {
+    "window": 6144,
+    "batch_size": 16,
+    "steps_per_epoch": 300,
+    "epochs": 120,
+    "lr": 0.002,
+    "weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "amp": true,
+    "num_workers": 0,
+    "seed": 0,
+    "patience": 15,
+    "name": "tcn_r3",
+    "select_metric": "val_rmse_g01_um"
+  },
+  "augment": {
+    "enabled": true,
+    "prob": 0.5,
+    "jitter": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "decimate": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "dropout_frac": [
+      0.0,
+      0.05
+    ],
+    "interp": "cubic"
+  },
+  "eval": {
+    "rf_sweep_ms": [
+      100.0,
+      200.0,
+      300.0
+    ],
+    "ndoe_sweep": [
+      8,
+      16,
+      32,
+      64
+    ],
+    "export_tcp_csv": true,
+    "nperseg": 2048,
+    "fir_taps": 1021,
+    "psd_band_hz": [
+      0.0,
+      200.0
+    ]
+  }
+}

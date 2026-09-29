@@ -1,0 +1,78 @@
+{
+  "run": "tcn_r3",
+  "split": "test",
+  "checkpoint": "best.pt",
+  "epoch": 42,
+  "programs": [
+    "DOE_1006_ARC_TRANSITION_R7_F15000_S07",
+    "DOE_1013_ARC_TRANSITION_R4_F15000_S14",
+    "DOE_1062_CORNER_SEQUENCE_K3_F15000_S003",
+    "DOE_1069_CORNER_SEQUENCE_K2_F15000_S010",
+    "DOE_1076_CORNER_SEQUENCE_K1_F15000_S017"
+  ],
+  "receptive_field_ms": 510.50000000000006,
+  "pooled": [
+    {
+      "segment": "G00",
+      "n": 19528,
+      "programs": 5,
+      "rmse_x_um": 4.5687271761,
+      "maxabs_x_um": 86.3822784424,
+      "true_rms_x_um": 26.4625585038,
+      "rmse_y_um": 7.0975831942,
+      "maxabs_y_um": 105.020401001,
+      "true_rms_y_um": 9.964070147,
+      "rmse_z_um": 5.6129440835,
+      "maxabs_z_um": 104.3139801025,
+      "true_rms_z_um": 31.2917191599
+    },
+    {
+      "segment": "G01",
+      "n": 86023,
+      "programs": 5,
+      "rmse_x_um": 21.4637188548,
+      "maxabs_x_um": 182.1800231934,
+      "true_rms_x_um": 121.7809530212,
+      "rmse_y_um": 36.4942852586,
+      "maxabs_y_um": 208.1079101562,
+      "true_rms_y_um": 48.9489464414,
+      "rmse_z_um": 17.1942642312,
+      "maxabs_z_um": 110.1576461792,
+      "true_rms_z_um": 21.8167757833
+    },
+    {
+      "segment": "all",
+      "n": 105551,
+      "programs": 5,
+      "rmse_x_um": 19.4761523269,
+      "maxabs_x_um": 182.1800231934,
+      "true_rms_x_um": 110.5275812485,
+      "rmse_y_um": 33.0870119529,
+      "maxabs_y_um": 208.1079101562,
+      "true_rms_y_um": 44.3968885423,
+      "rmse_z_um": 15.7090614433,
+      "maxabs_z_um": 110.1576461792,
+      "true_rms_z_um": 23.8551617272
+    }
+  ],
+  "spectral_mean": [
+    {
+      "axis": "x",
+      "coh_mean": 0.6136830389,
+      "coh_pw_mean": 0.9972450137,
+      "psd_ratio": 0.9284800649
+    },
+    {
+      "axis": "y",
+      "coh_mean": 0.5447886229,
+      "coh_pw_mean": 0.9387860417,
+      "psd_ratio": 0.432728526
+    },
+    {
+      "axis": "z",
+      "coh_mean": 0.4849985838,
+      "coh_pw_mean": 0.8978018165,
+      "psd_ratio": 0.682031095
+    }
+  ]
+}
