@@ -144,6 +144,60 @@ def normal_equations_fft(cfg, programs: Sequence, taps: int, log=print):
     return a_mat, r_ue.reshape(p, 3), n_used
 
 
+# --------------------------------------------------------------------------- #
+# excitation summaries, for choosing WHICH programs to identify on (script 02)
+# --------------------------------------------------------------------------- #
+def input_correlations(cfg, prog, taps: int) -> np.ndarray:
+    """R_bc[tau] for one program, tau = -(taps-1)..taps-1, inputs only.
+
+    This is the left half of ``normal_equations_fft`` without the target: it is
+    everything a program contributes to X^T X, in 6*6*(2L-1) numbers instead of
+    a (6L)^2 matrix. That compression is what makes it affordable to score
+    every candidate program in the dataset and to re-score them against a
+    growing selection.
+
+    The run-out correction is deliberately dropped here. It is a rank-(L-1)
+    change out of ~20,000 rows per program and cannot reorder candidates; the
+    fit itself still uses the exact path.
+    """
+    from scipy.signal import correlate
+
+    n_in = cfg.model.in_channels
+    r_uu = np.zeros((n_in, n_in, 2 * taps - 1))
+    u_all = prog.u.astype(np.float64)
+    ok = np.asarray(prog.valid, bool)
+    edges = np.flatnonzero(np.diff(ok.astype(np.int8)))
+    bounds = np.concatenate([[0], edges + 1, [ok.size]])
+    for s, t in zip(bounds[:-1], bounds[1:]):
+        if not ok[s] or t - s < taps + 1:
+            continue
+        u = u_all[s:t]
+        lag0 = len(u) - 1
+        for b in range(n_in):
+            for c in range(b, n_in):
+                full = correlate(u[:, c], u[:, b], mode="full", method="fft")
+                seg = full[lag0 - (taps - 1): lag0 + taps]
+                r_uu[b, c] += seg
+                if c != b:
+                    r_uu[c, b] += seg[::-1]
+    return r_uu
+
+
+def gram_from_correlations(r_uu: np.ndarray, taps: int) -> np.ndarray:
+    """(n_in, n_in, 2L-1) correlations -> the (n_in*L)^2 block-Toeplitz Gram."""
+    from scipy.linalg import toeplitz
+
+    n_in = r_uu.shape[0]
+    p = n_in * taps
+    a = np.empty((p, p), dtype=np.float64)
+    for b in range(n_in):
+        for c in range(n_in):
+            r = r_uu[b, c]
+            a[b * taps:(b + 1) * taps, c * taps:(c + 1) * taps] = toeplitz(
+                r[taps - 1:], r[taps - 1::-1])
+    return a
+
+
 def normal_equations(cfg, programs: Sequence, taps: int, chunk: int = 4096,
                      use_weights: bool = False, log=print):
     """Accumulate the weighted normal equations once, for every ridge value."""
