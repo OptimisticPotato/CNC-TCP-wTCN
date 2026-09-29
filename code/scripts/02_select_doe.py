@@ -144,7 +144,9 @@ def variance_score(a_target: np.ndarray, a_sel: np.ndarray, lam: float) -> float
 
 def rank_excitation(cfg, cand_names: Sequence[str], target_names: Sequence[str],
                     taps: int, depth: int, ridge_rel: float,
-                    feed_of: dict = None, floor: int = 0, budget: int = 0) -> tuple:
+                    feed_of: dict = None, floor: int = 0, budget: int = 0,
+                    family_of: dict = None, family_cap: int = 0,
+                    feed_quota: str = "even") -> tuple:
     """Greedy V-optimal ranking, optionally with a per-feed-level floor.
 
     Left alone the criterion concentrates on the fastest programs, and it is
@@ -158,6 +160,23 @@ def rank_excitation(cfg, cand_names: Sequence[str], target_names: Sequence[str],
     no low-feed program is ever fitted. ``floor`` reserves that many picks for
     each feed level: once the remaining budget is only just enough to meet the
     unmet floors, candidates are restricted to the levels that still need one.
+
+    ``family_cap`` and ``feed_quota='even'`` exist because a selection that is
+    optimal for identifying the FIR is actively bad for training the network.
+    Measured on this dataset: an unconstrained 22-program selection put 8 of 22
+    in one family and 16 of 22 at one feed. It took the FIR from 0.435 to
+    0.0032 um and the TCN from 1.7 to 21.5 um.
+
+    The reason is in the criterion itself. A second program of a kind already
+    picked adds almost no new direction to X^T X, so it scores near zero --
+    correct for a linear fit, and exactly wrong for a non-linear model, for
+    which those near duplicates are the only thing standing between it and
+    memorising the training waveforms. The numbers say so directly: with the
+    concentrated selection the network fit its own training data to 1.6 % of
+    signal but was 12 % on validation, while with the diverse one train and
+    validation both sat near 1.8 %.
+
+    So: keep the criterion, bound how concentrated it is allowed to get.
     """
     from tcn_cnc2tcp import fir
 
@@ -181,20 +200,51 @@ def rank_excitation(cfg, cand_names: Sequence[str], target_names: Sequence[str],
     base = variance_score(a_target, a_sel, lam)
     print(f"\nstarting variance {base:.6e}")
     feed_of = feed_of or {}
+    family_of = family_of or {}
+    levels = sorted({feed_of[n] for n in names if n in feed_of})
     need = {}
-    if floor and feed_of:
-        levels = {feed_of[n] for n in names if n in feed_of}
+    if floor and levels:
         need = {f: floor for f in levels}
         if budget and floor * len(levels) > budget:
             print(f"  note: floor {floor} x {len(levels)} feed levels > budget "
                   f"{budget}; floors will be met in feed order until it runs out")
+    # even quota: give each feed level its share of the budget, limited by how
+    # many candidates that level actually has, then hand leftovers to the
+    # levels with room
+    quota = {}
+    if feed_quota == "even" and levels and budget:
+        avail = {f: sum(1 for n in names if feed_of.get(n) == f) for f in levels}
+        share, extra = divmod(budget, len(levels))
+        for i, f in enumerate(levels):
+            quota[f] = min(avail[f], share + (1 if i < extra else 0))
+        short = budget - sum(quota.values())
+        for f in sorted(levels, key=lambda f: avail[f] - quota[f], reverse=True):
+            take = min(short, avail[f] - quota[f])
+            quota[f] += take
+            short -= take
+        print("  feed quota (even): " + "  ".join(
+            f"{f:.0f}:{quota[f]}" for f in levels))
+    fam_used = {}
+    feed_used = {}
     for step in range(depth):
         unmet = [f for f, c in need.items() if c > 0]
         left_budget = (budget or depth) - step
         pool_names = names
+        if family_cap:
+            pool_names = [n for n in pool_names
+                          if fam_used.get(family_of.get(n), 0) < family_cap]
+        if quota:
+            pool_names = [n for n in pool_names
+                          if feed_used.get(feed_of.get(n), 0)
+                          < quota.get(feed_of.get(n), 0)]
         if unmet and left_budget <= len(unmet):
             # only just enough picks remain to satisfy the floors
-            pool_names = [n for n in names if feed_of.get(n) in set(unmet)]
+            restricted = [n for n in pool_names if feed_of.get(n) in set(unmet)]
+            pool_names = restricted or [n for n in names
+                                        if feed_of.get(n) in set(unmet)]
+        if not [n for n in pool_names if n not in chosen]:
+            print("  note: constraints left no candidate; relaxing for the rest")
+            pool_names = names
         best, best_s, best_a = None, np.inf, None
         for n in pool_names:
             if n in chosen:
@@ -207,6 +257,8 @@ def rank_excitation(cfg, cand_names: Sequence[str], target_names: Sequence[str],
             break
         if feed_of.get(best) in need and need[feed_of[best]] > 0:
             need[feed_of[best]] -= 1
+        fam_used[family_of.get(best)] = fam_used.get(family_of.get(best), 0) + 1
+        feed_used[feed_of.get(best)] = feed_used.get(feed_of.get(best), 0) + 1
         chosen.append(best)
         scores.append(best_s)
         a_sel = best_a
@@ -244,8 +296,13 @@ def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--index", default=None, help="default: work/meta/index.csv")
-    ap.add_argument("--criterion", choices=("excitation", "stratified"),
-                    default="excitation")
+    ap.add_argument("--criterion",
+                    choices=("excitation", "stratified", "all"),
+                    default="excitation",
+                    help="'all' writes every indexed run and runs no "
+                         "criterion: an epoch is a fixed number of random "
+                         "crops, so training on everything costs no extra "
+                         "time -- only the one-off cache and ~1.5 GB of RAM")
     ap.add_argument("--target", default="",
                     help="regex on run names for what the model must predict "
                          "well; default = the whole index")
@@ -261,6 +318,14 @@ def main() -> int:
                     help="how many picks are ranked greedily; beyond this the "
                          "order is by standalone score")
     ap.add_argument("--ridge-rel", type=float, default=1e-8)
+    ap.add_argument("--family-cap", type=int, default=0,
+                    help="max programs from one path family; 0 = auto "
+                         "(max(2, n_programs/15)). Concentration is what broke "
+                         "the network, not poor coverage")
+    ap.add_argument("--feed-quota", choices=("even", "floor", "none"),
+                    default="even",
+                    help="'even' splits the budget across cutting-feed levels; "
+                         "'floor' only guarantees --feed-floor per level")
     ap.add_argument("--feed-floor", type=int, default=1,
                     help="minimum programs per cutting-feed level; 0 lets the "
                          "criterion run free, which concentrates on high feed")
@@ -282,7 +347,17 @@ def main() -> int:
           f"{df['family'].nunique()} families -> selecting {k} "
           f"[{args.criterion}]")
 
-    if args.criterion == "stratified":
+    if args.criterion == "all":
+        # Nothing to choose. train.steps_per_epoch * batch_size crops are drawn
+        # per epoch regardless of how many programs are loaded, so the whole
+        # index costs the same per epoch as 22 programs and gives the network
+        # the waveform diversity it needs. Paid once: the loader cache, and
+        # ~1.5 GB of RAM for 844 runs.
+        ranking = df["run"].tolist()
+        k = len(ranking)
+        note = "every indexed run (no criterion)"
+        a_sel = a_target = None
+    elif args.criterion == "stratified":
         x = np.nan_to_num(df[FEATURES].to_numpy(float), nan=0.0)
         x = (x - x.mean(0)) / np.maximum(x.std(0), 1e-9)
         strata = {f: df.index[df["feed_cut_max"].round() == f].tolist()
@@ -318,12 +393,17 @@ def main() -> int:
         print(f"candidate pool {len(pool)} of {len(df)}; "
               f"target '{args.target or 'all'}' -> {len(targets)} programs")
         feed_of = dict(zip(df["run"], df["feed_cut_max"].round()))
+        fam_of = dict(zip(df["run"], df["family"]))
+        cap = args.family_cap or max(2, round(k / 15))
+        print(f"family cap {cap}, feed quota '{args.feed_quota}'")
         ranking, _, a_sel, a_target, _ = rank_excitation(
             cfg, pool, targets, args.design_taps, args.rank_depth, args.ridge_rel,
-            feed_of=feed_of, floor=args.feed_floor, budget=k)
+            feed_of=feed_of, floor=args.feed_floor, budget=k,
+            family_of=fam_of, family_cap=cap, feed_quota=args.feed_quota)
         ranking += [n for n in df["run"] if n not in set(ranking)]
         note = (f"V-optimal excitation coverage, {args.design_taps} design taps, "
-                f"target '{args.target or 'all'}', feed floor {args.feed_floor}")
+                f"target '{args.target or 'all'}', feed quota "
+                f"{args.feed_quota}, family cap {cap}")
 
     pos = {n: i for i, n in enumerate(ranking)}
     df["rank"] = df["run"].map(lambda n: pos.get(n, len(ranking)) + 1)
