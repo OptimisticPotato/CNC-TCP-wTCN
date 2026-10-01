@@ -144,7 +144,7 @@ footer { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 48px;
 <section id="why">
   <h2><span class="num">01</span>왜 TCN인가</h2>
 
-  <div class="formula">예측 대상:  e[n] = TCP[n] − CNC[n]   <span class="cmt">(추종오차, µm)</span></div>
+  <div class="formula">예측 대상:  <strong>추종오차</strong>  e[n] = TCP[n] − CNC[n]   <span class="cmt">µm</span></div>
 
   <div class="reasons">
     <div class="reason">
@@ -201,14 +201,14 @@ footer { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 48px;
 <strong>입력</strong>  u[n] = [ Δcnc·1<sub>G01</sub> , Δcnc·1<sub>G00</sub> ] / s     <span class="cmt">6채널</span>
        s = 급속이송 / 60 × dt                   <span class="cmt">1샘플 이동량</span>
 
-<strong>출력</strong>  e[n] = (TCP[n] − CNC[n]) × 1000           <span class="cmt">3채널, µm</span>
+<strong>출력</strong>  e[n] = (TCP[n] − CNC[n]) × 1000           <span class="cmt">추종오차, 3채널, µm</span>
 <span class="cmt">복원</span>   TCP  = CNC + e / 1000</div>
 
   <div class="tablewrap">
     <table>
       <tbody>
         <tr><td>시간 격자</td><td class="mono">0.5 ms 균일 (2,000 Hz)</td></tr>
-        <tr><td>입력 / 출력</td><td class="mono">6채널 → 3채널 (X/Y/Z)</td></tr>
+        <tr><td>입력 / 출력</td><td class="mono">지령 증분 6채널 → 추종오차 3채널 (X/Y/Z)</td></tr>
         <tr><td>수용영역</td><td class="mono">1,021 샘플 = 510.5 ms</td></tr>
         <tr><td>G00 / G01</td><td>feed 열 기준, 급속이송 값은 데이터에서 자동 검출</td></tr>
         <tr><td>손실 제외</td><td>크롭 앞 1,021 샘플, 빈 행, 급속 구간 가중 0.1</td></tr>
@@ -339,8 +339,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
         <dt>필요</dt><dd><code>split.json</code></dd>
         <dt>결과</dt><dd><code>fir_baseline.npz</code>, <code>metric9_fir_*.csv</code> (약 13초)</dd>
       </dl>
-      <div class="note"><p><strong>반드시 07보다 먼저.</strong> 07이 <code>fir_baseline.npz</code>를 찾아
-      기존 그림에 FIR을 겹쳐 그리고 지표 9 표를 만듭니다.</p></div>
+      <dl class="io"><dt>건너뛰면</dt><dd>07이 FIR 없이 평가합니다. 그림에 FIR 곡선과 지표 9가 빠집니다</dd></dl>
     </div>
   </div>
 
@@ -385,10 +384,10 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
 
 <section id="perf">
   <h2><span class="num">05</span>성능</h2>
-  <p>홀드아웃 127개 프로그램. 지표는 <code>e = TCP − CNC</code> 벡터 오차의 RMSE.</p>
+  <p>홀드아웃 127개 프로그램. 지표는 <strong>추종오차 예측 오차</strong> — 예측한 <code>e</code>와 실제 <code>e</code>의 차이, 3축 벡터 RMSE입니다. 가공면과 비교한 형상오차가 아닙니다.</p>
 
   <div class="keyfact">
-    <div><div class="v">0.044 µm</div><div class="k">정삭 구간 (중앙값)</div></div>
+    <div><div class="v">0.044 µm</div><div class="k">정삭 구간 추종오차 예측 오차 (중앙값)</div></div>
     <div><div class="v">0.994–0.999</div><div class="k">진동 진폭비</div></div>
     <div><div class="v">0.998–0.9999</div><div class="k">진동 위상 일치도</div></div>
     <div><div class="v">52 분</div><div class="k">학습 (590런 · 120 epoch)</div></div>
@@ -396,7 +395,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
 
   <figure>
     <img src="fig_vibration.png" alt="정삭 조건에서 실제 추종오차와 TCN 예측이 겹쳐 그려진 시계열, 그리고 같은 구간의 예측 잔차">
-    <figcaption>정삭(F500)에서 가장 진동이 심한 250 ms 구간. 왼쪽은 두 곡선이 구분되지 않고,
+    <figcaption>정삭(F500)에서 추종오차의 진동이 가장 심한 250 ms 구간. 왼쪽은 두 곡선이 구분되지 않고,
     오른쪽이 실제 차이입니다.</figcaption>
   </figure>
 
@@ -411,7 +410,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
   <div class="tablewrap">
     <table>
       <thead>
-        <tr><th>모델</th><th class="num">중앙값</th><th class="num">p90</th><th class="num">최대</th>
+        <tr><th>추종오차 예측 오차</th><th class="num">중앙값</th><th class="num">p90</th><th class="num">최대</th>
             <th class="num">정삭 중앙값</th><th class="num">소요</th></tr>
       </thead>
       <tbody>
@@ -425,7 +424,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
   <p style="font-size:.85rem;color:var(--fg-dim);margin-top:-6px">단위 µm. 정삭 = 절삭이송 1,500 mm/min 이하 67개.</p>
 
   <figure>
-    <img src="fig_accuracy.png" alt="이송속도별 TCP 예측 오차 상자그림과, TCN·FIR의 누적 분포 비교">
+    <img src="fig_accuracy.png" alt="이송속도별 추종오차 예측 오차 상자그림과, TCN·FIR의 누적 분포 비교">
     <figcaption>왼쪽: 이송속도가 오르면 오차도 커지지만 신호가 64배 커지므로 상대오차는 줄어듭니다.
     오른쪽: 두 분포가 가로축에서 약 100배 떨어져 있습니다.</figcaption>
   </figure>
@@ -439,8 +438,8 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
   </ul>
 
   <div class="note">
-    <p>여기서 말하는 오차는 <strong>TCP 궤적 예측</strong>의 오차입니다. 형상오차가 아닙니다.
-    형상오차는 예측 TCP를 외부 형상 파이프라인에 넣어야 하고, 그 단계는 이 저장소 밖에 있습니다.</p>
+    <p>형상오차가 필요하면 예측 TCP(<code>tcp/*.csv</code>)를 외부 형상 파이프라인에 넣어야 합니다.
+    그 단계는 이 저장소 밖입니다.</p>
   </div>
 </section>
 
