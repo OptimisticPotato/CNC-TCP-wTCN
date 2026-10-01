@@ -39,52 +39,45 @@
 body {
   background: var(--bg); color: var(--fg);
   font-family: var(--font-sans); font-weight: 400;
-  font-size: 16px; line-height: 1.72;
+  font-size: 16px; line-height: 1.68;
   margin: 0; padding-inline: 20px; padding-block: 0 72px;
   -webkit-font-smoothing: antialiased;
 }
 .wrap { max-width: 1040px; margin: 0 auto; }
 p, ul, ol { max-width: var(--measure); }
-p { margin: 0 0 1em; }
-li { margin-bottom: .35em; }
+p { margin: 0 0 .9em; }
+ul { margin: .4em 0 1em; padding-left: 1.15em; }
+li { margin-bottom: .3em; }
 a { color: var(--accent); }
 
-/* ---- masthead ---- */
-header.top { padding-block: 56px 40px; border-bottom: 2px solid var(--fg); margin-bottom: 44px; }
-h1 { font-size: clamp(1.9rem, 4.6vw, 2.9rem); font-weight: 600; letter-spacing: -.02em;
-     line-height: 1.15; margin: 0 0 .35em; text-wrap: balance; }
-.sub { font-size: 1.08rem; color: var(--fg-dim); max-width: var(--measure); margin: 0; }
+header.top { padding-block: 52px 32px; border-bottom: 2px solid var(--fg); margin-bottom: 42px; }
+h1 { font-size: clamp(1.9rem, 4.6vw, 2.85rem); font-weight: 600; letter-spacing: -.02em;
+     line-height: 1.12; margin: 0; text-wrap: balance; }
 .meta { font-family: var(--font-mono); font-size: .78rem; color: var(--fg-dim);
-        letter-spacing: .04em; text-transform: uppercase; margin: 0 0 1.4em; }
+        letter-spacing: .04em; text-transform: uppercase; margin: 0 0 1.1em; }
 
-/* ---- sections ---- */
-section { margin-bottom: 60px; scroll-margin-top: 20px; }
-h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -.012em; margin: 0 0 .2em;
+section { margin-bottom: 56px; }
+h2 { font-size: 1.45rem; font-weight: 600; letter-spacing: -.012em; margin: 0 0 .9em;
      padding-bottom: .3em; border-bottom: 1px solid var(--line); text-wrap: balance; }
 h2 .num { font-family: var(--font-mono); font-size: .72em; font-weight: 500;
           color: var(--accent); margin-right: .7em; }
-h3 { font-size: 1.08rem; font-weight: 600; margin: 2em 0 .5em; }
-.lede { color: var(--fg-dim); margin-bottom: 1.6em; }
+h3 { font-size: 1.04rem; font-weight: 600; margin: 1.8em 0 .5em; }
 
-/* ---- reason cards ---- */
-.reasons { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); margin-top: 24px; }
+.reasons { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); }
 .reason { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
-          padding: 16px 18px; min-width: 0; }
-.reason h4 { margin: 0 0 .4em; font-size: .97rem; font-weight: 600; }
-.reason p { margin: 0; font-size: .91rem; line-height: 1.6; color: var(--fg-dim); max-width: none; }
-.reason code { font-size: .86em; }
+          padding: 14px 16px; min-width: 0; }
+.reason h4 { margin: 0 0 .3em; font-size: .95rem; font-weight: 600; }
+.reason p { margin: 0; font-size: .89rem; line-height: 1.55; color: var(--fg-dim); max-width: none; }
 
-/* ---- io / formula ---- */
-.formula { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px;
-           font-family: var(--font-mono); font-size: .9rem; line-height: 1.9;
-           overflow-x: auto; margin: 18px 0; }
+.formula { background: var(--surface); border: 1px solid var(--line); padding: 16px 18px;
+           font-family: var(--font-mono); font-size: .89rem; line-height: 1.85;
+           overflow-x: auto; margin: 16px 0; }
 .formula .cmt { color: var(--fg-dim); }
 
-/* ---- tables ---- */
-.tablewrap { overflow-x: auto; margin: 20px 0; border: 1px solid var(--line); background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: .9rem; }
-th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-thead th { font-size: .76rem; text-transform: uppercase; letter-spacing: .06em;
+.tablewrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .89rem; }
+th, td { text-align: left; padding: 8px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em;
            color: var(--fg-dim); font-weight: 600; background: var(--bg); white-space: nowrap; }
 tbody tr:last-child td { border-bottom: none; }
 td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -93,52 +86,46 @@ tr.tcn td:first-child { color: var(--tcn); font-weight: 600; }
 tr.fir td:first-child { color: var(--fir); font-weight: 600; }
 .win { color: var(--accent); font-weight: 600; }
 
-/* ---- code ---- */
-pre { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px;
-      overflow-x: auto; font-family: var(--font-mono); font-size: .85rem; line-height: 1.7; margin: 14px 0; }
+pre { background: var(--surface); border: 1px solid var(--line); padding: 13px 16px;
+      overflow-x: auto; font-family: var(--font-mono); font-size: .85rem; line-height: 1.65; margin: 12px 0; }
 pre .c { color: var(--fg-dim); }
 code { font-family: var(--font-mono); font-size: .88em;
        background: var(--accent-dim); padding: .1em .38em; border-radius: 2px; }
 pre code { background: none; padding: 0; font-size: inherit; }
 
-/* ---- pipeline steps ---- */
-.step { display: grid; grid-template-columns: 56px 1fr; gap: 0 18px;
-        border-top: 1px solid var(--line); padding-block: 18px; }
+.step { display: grid; grid-template-columns: 52px 1fr; gap: 0 18px;
+        border-top: 1px solid var(--line); padding-block: 15px; }
 .step:last-of-type { border-bottom: 1px solid var(--line); }
-.step .n { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 600;
+.step .n { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600;
            color: var(--accent); line-height: 1.3; }
 .step .body { min-width: 0; }
-.step h4 { margin: 0 0 .15em; font-size: 1.02rem; font-weight: 600; }
-.step .file { font-family: var(--font-mono); font-size: .8rem; color: var(--fg-dim); }
-.step .what { margin: .5em 0 .7em; font-size: .93rem; max-width: var(--measure); }
-.step pre { margin: 8px 0 10px; }
-.step .io { display: grid; gap: 4px 12px; grid-template-columns: max-content 1fr;
-            font-size: .86rem; color: var(--fg-dim); }
+.step h4 { margin: 0 0 .3em; font-size: 1rem; font-weight: 600; }
+.step .file { font-family: var(--font-mono); font-size: .79rem; color: var(--fg-dim); font-weight: 400; }
+.step pre { margin: 8px 0; }
+.step .io { display: grid; gap: 3px 12px; grid-template-columns: max-content 1fr;
+            font-size: .85rem; color: var(--fg-dim); margin: 6px 0 0; }
 .step .io dt { font-weight: 600; color: var(--fg); }
 .step .io dd { margin: 0; min-width: 0; }
 .step .io code { font-size: .85em; }
-.opt { background: var(--accent-dim); color: var(--accent); font-size: .68rem; font-weight: 600;
-       letter-spacing: .05em; text-transform: uppercase; padding: .15em .5em; margin-left: .6em;
+.opt { background: var(--accent-dim); color: var(--accent); font-size: .67rem; font-weight: 600;
+       letter-spacing: .05em; text-transform: uppercase; padding: .15em .5em; margin-left: .5em;
        vertical-align: .18em; border-radius: 2px; }
 
-/* ---- figures ---- */
-figure { margin: 26px 0; }
+figure { margin: 22px 0; }
 figure img { width: 100%; max-width: 100%; display: block; border: 1px solid var(--line); background: #fff; }
-figcaption { font-size: .85rem; color: var(--fg-dim); margin-top: 9px; max-width: var(--measure); }
+figcaption { font-size: .84rem; color: var(--fg-dim); margin-top: 8px; max-width: var(--measure); }
 
-/* ---- callout ---- */
-.note { background: var(--warn-bg); border: 1px solid var(--warn-line); padding: 14px 18px; margin: 20px 0; }
-.note p { margin: 0; max-width: none; font-size: .92rem; }
-.note strong { font-weight: 600; }
+.note { background: var(--warn-bg); border: 1px solid var(--warn-line); padding: 12px 16px; margin: 16px 0; }
+.note p { margin: 0; max-width: none; font-size: .9rem; }
 
-.keyfact { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 22px 0; }
-.keyfact div { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; min-width: 0; }
-.keyfact .v { font-family: var(--font-mono); font-size: 1.32rem; font-weight: 600;
+.keyfact { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 18px 0; }
+.keyfact div { background: var(--surface); border: 1px solid var(--line); padding: 13px 15px; min-width: 0; }
+.keyfact .v { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600;
               font-variant-numeric: tabular-nums; line-height: 1.2; }
-.keyfact .k { font-size: .78rem; color: var(--fg-dim); margin-top: .3em; }
+.keyfact .k { font-size: .77rem; color: var(--fg-dim); margin-top: .25em; }
 
-footer { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 56px;
-         font-size: .85rem; color: var(--fg-dim); }
+footer { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 48px;
+         font-size: .84rem; color: var(--fg-dim); }
 @media (max-width: 560px) {
   body { font-size: 15px; }
   .step { grid-template-columns: 1fr; gap: 0; }
@@ -152,145 +139,129 @@ footer { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 56px;
 <header class="top">
   <p class="meta">Manufacturing &amp; Mechatronics Lab · 정삭 TCP 예측</p>
   <h1>CNC 지령에서 TCP 궤적을 예측하는 파이프라인</h1>
-  <p class="sub">지령 좌표(CNC)만으로 공구 끝점의 실제 궤적(TCP)을 예측합니다. 신경망(TCN)과
-  선형 기준선(FIR)을 같은 데이터·같은 분할에서 나란히 돌려 비교합니다.</p>
 </header>
 
 <section id="why">
   <h2><span class="num">01</span>왜 TCN인가</h2>
-  <p class="lede">구조를 처음부터 설명하기보다, 이 문제의 어떤 성질이 이 구조를 고르게 했는지로 정리합니다.</p>
 
-  <p>예측 대상은 <strong>추종오차</strong> <code>e = TCP − CNC</code>입니다. 지령이 들어가면
-  서보와 기구가 그 지령을 쫓아가고, 쫓아가지 못한 만큼이 공구 끝에서 변위로 나타납니다.
-  이 관계는 시간축 위의 신호 대 신호 사상이고, 네 가지 성질을 갖습니다.
-  TCN(Temporal Convolutional Network)은 그 네 가지를 <em>학습으로 배우는 것이 아니라
-  구조로 강제할 수 있는</em> 가장 단순한 모델이라서 선택했습니다.</p>
+  <div class="formula">예측 대상:  e[n] = TCP[n] − CNC[n]   <span class="cmt">(추종오차, µm)</span></div>
 
   <div class="reasons">
     <div class="reason">
-      <h4>인과성 — causal convolution</h4>
-      <p>서보는 미래 지령을 모릅니다. 현재 TCP는 과거 지령만으로 결정됩니다. 합성곱 커널을
-      과거 쪽으로만 패딩하면 미래를 보는 경로가 아예 없어집니다.</p>
+      <h4>인과성</h4>
+      <p>서보는 미래 지령을 모름. 합성곱을 과거로만 패딩하면 미래를 보는 경로가 없음.</p>
     </div>
     <div class="reason">
-      <h4>긴 메모리 — dilation</h4>
-      <p>임펄스 응답의 꼬리가 <code>τ ≈ 50–70 ms</code>로 감쇠해 <strong>510 ms</strong>까지 필요합니다.
-      팽창률을 1,2,…,128로 키우면 8개 블록만으로 수용영역 1,021 샘플을 확보합니다.</p>
+      <h4>긴 메모리</h4>
+      <p>임펄스 응답 꼬리 τ ≈ 50–70 ms → 510 ms 필요. 팽창률 1→128로 블록 8개에 1,021 샘플.</p>
     </div>
     <div class="reason">
-      <h4>정지 조건 — bias 제거</h4>
-      <p>지령이 멈추면 오차도 0이어야 합니다. 모든 합성곱에서 편향을 빼면
-      <code>f(0) = 0</code>이 수치적으로 보장됩니다. 학습으로 근사할 필요가 없습니다.</p>
+      <h4>정지 조건</h4>
+      <p>지령이 멈추면 오차도 0. 편향을 빼면 f(0)=0이 구조로 보장됨.</p>
     </div>
     <div class="reason">
-      <h4>좌표 무관 — 증분 입력</h4>
-      <p>입력이 좌표가 아니라 <strong>증분 ΔCNC</strong>라 작업좌표계 오프셋이 차분에서 소거됩니다.
-      실측상 오프셋 10<sup>8</sup> mm까지 출력이 바뀌지 않습니다.</p>
+      <h4>좌표 무관</h4>
+      <p>입력이 증분 ΔCNC라 작업좌표 오프셋이 소거됨. 실측상 10<sup>8</sup> mm까지 출력 불변.</p>
     </div>
   </div>
 
-  <h3>구조 요약</h3>
-  <p>잔차 블록 8개를 쌓고, 각 블록은 커널 5의 causal convolution 두 개와 ReLU로 구성됩니다.
-  팽창률은 블록마다 두 배가 되고, 수용영역은</p>
-  <div class="formula">RF = 1 + (k − 1) · Σ dilations = 1 + 4 × (1+2+4+8+16+32+64+128) = <strong>1,021</strong> 샘플 = 510.5 ms</div>
-  <p>마지막에 6채널 입력에서 3채널 출력으로 가는 <strong>선형 직결 경로</strong>(linear skip)를
-  더합니다. 이 경로는 그 자체로 FIR 필터와 같은 함수 클래스라, 비선형 가지는 그 위의
-  잔차만 담당하면 됩니다.</p>
+  <h3>구조</h3>
+  <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><td>블록</td><td class="mono">8 (잔차, causal conv × 2 + ReLU)</td></tr>
+        <tr><td>커널 / 채널</td><td class="mono">5 / 48</td></tr>
+        <tr><td>팽창률</td><td class="mono">1, 2, 4, 8, 16, 32, 64, 128</td></tr>
+        <tr><td>수용영역</td><td class="mono">1 + 4 × Σdil = 1,021 샘플 = 510.5 ms</td></tr>
+        <tr><td>선형 직결</td><td class="mono">6 → 3, 편향 없음 (FIR과 같은 함수 클래스)</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-  <h3>다른 구조를 쓰지 않은 이유</h3>
-  <ul>
-    <li><strong>RNN / LSTM</strong> — 수용영역이 설계값으로 드러나지 않고, 0.5 ms 간격 수만 스텝을
-    순차 전개해야 해 학습이 느립니다. TCN은 수용영역이 위 식으로 못 박히고 시간축으로 병렬화됩니다.</li>
-    <li><strong>Transformer</strong> — 시퀀스 길이가 2~3만이라 어텐션 비용이 현실적이지 않고,
-    이 문제의 의존성은 전역이 아니라 국소적(최근 510 ms)입니다.</li>
-  </ul>
+  <h3>대안을 쓰지 않은 이유</h3>
+  <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><td style="white-space:nowrap">RNN / LSTM</td><td>수용영역이 설계값으로 드러나지 않음. 수만 스텝 순차 전개로 학습이 느림.</td></tr>
+        <tr><td style="white-space:nowrap">Transformer</td><td>시퀀스 2~3만으로 어텐션 비용 과다. 의존성이 전역이 아니라 국소(510 ms).</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <section id="data">
   <h2><span class="num">02</span>데이터와 입출력</h2>
 
   <div class="note">
-    <p><strong>데이터:</strong> <em>구</em> 시뮬레이터로 생성한 DOE 968런 중 유효 844런을 사용했습니다.
-    신규 시뮬레이터 데이터가 아니며, 신규 환경에서는 재식별·재학습이 필요합니다.</p>
+    <p><strong>구</strong> 시뮬레이터 DOE 968런 중 유효 844런. 신규 시뮬레이터 데이터가 아니며,
+    신규 환경에서는 재학습이 필요합니다.</p>
   </div>
 
-  <h3>입력 — 6채널</h3>
-  <p>지령 증분을 급속이송 구간과 절삭 구간으로 나눠 6채널로 만듭니다. 두 마스크는 서로
-  배타적이므로, 이 구성은 “G00·G01에 서로 다른 필터를 두고 탭 안에서 합산”하는 것과 정확히 같습니다.</p>
-  <div class="formula">Δcnc[n] = CNC[n] − CNC[n−1]                 <span class="cmt">(float64, mm)</span>
-u[n]    = [ Δcnc·1<sub>G01</sub> , Δcnc·1<sub>G00</sub> ] / s   <span class="cmt">(6채널, 무차원)</span>
-s       = 급속이송 / 60 × dt                <span class="cmt">(1샘플 이동량으로 정규화)</span></div>
+  <div class="formula">Δcnc[n] = CNC[n] − CNC[n−1]
+<strong>입력</strong>  u[n] = [ Δcnc·1<sub>G01</sub> , Δcnc·1<sub>G00</sub> ] / s     <span class="cmt">6채널</span>
+       s = 급속이송 / 60 × dt                   <span class="cmt">1샘플 이동량</span>
 
-  <h3>출력 — 3채널</h3>
-  <div class="formula">e[n] = (TCP[n] − CNC[n]) × 1000   <span class="cmt">(µm, X/Y/Z)</span>
-<span class="cmt">복원:</span> TCP = CNC + e / 1000</div>
-  <p>두 좌표를 float64로 뺀 뒤 µm로 바꿉니다. 320 mm 좌표에 µm를 더한 값은 float32로
-  표현되지 않지만, 차이값인 e는 표현됩니다.</p>
+<strong>출력</strong>  e[n] = (TCP[n] − CNC[n]) × 1000           <span class="cmt">3채널, µm</span>
+<span class="cmt">복원</span>   TCP  = CNC + e / 1000</div>
 
   <div class="tablewrap">
     <table>
-      <thead><tr><th>항목</th><th>값</th></tr></thead>
       <tbody>
         <tr><td>시간 격자</td><td class="mono">0.5 ms 균일 (2,000 Hz)</td></tr>
-        <tr><td>입력 / 출력</td><td class="mono">6채널 → 3채널</td></tr>
+        <tr><td>입력 / 출력</td><td class="mono">6채널 → 3채널 (X/Y/Z)</td></tr>
         <tr><td>수용영역</td><td class="mono">1,021 샘플 = 510.5 ms</td></tr>
-        <tr><td>G00 / G01 구분</td><td>feed 열 기준, 급속이송 값은 데이터에서 자동 검출</td></tr>
-        <tr><td>손실 제외 구간</td><td>각 크롭의 앞 1,021 샘플(이력 없음), 빈 행, 급속 구간 가중 0.1</td></tr>
+        <tr><td>G00 / G01</td><td>feed 열 기준, 급속이송 값은 데이터에서 자동 검출</td></tr>
+        <tr><td>손실 제외</td><td>크롭 앞 1,021 샘플, 빈 행, 급속 구간 가중 0.1</td></tr>
       </tbody>
     </table>
   </div>
 </section>
 
 <section id="setup">
-  <h2><span class="num">03</span>준비 — 어떤 파일이 어디에</h2>
+  <h2><span class="num">03</span>준비</h2>
 
   <pre><code>CNC2TCP/
-├─ Runs/                         <span class="c">← 시뮬레이션 결과 (git 추적 안 함)</span>
+├─ Runs/                         <span class="c">시뮬레이션 결과 (git 추적 안 함)</span>
 │  ├─ DOE_0001_RANDOMWALK3D_FINE_F500_S01/
-│  │  └─ 412_op1_out.csv         <span class="c">← 파이프라인이 읽는 유일한 파일</span>
-│  ├─ DOE_0002_.../
+│  │  └─ 412_op1_out.csv         <span class="c">읽는 파일은 이것 하나</span>
 │  └─ ...
 ├─ code/
 │  ├─ config.py                  <span class="c">모든 경로·하이퍼파라미터</span>
 │  ├─ scripts/                   <span class="c">00 ~ 11, 번호가 곧 실행 순서</span>
-│  ├─ tcn_cnc2tcp/               <span class="c">라이브러리</span>
-│  └─ work/                      <span class="c">산출물 전부가 여기로</span>
+│  ├─ tcn_cnc2tcp/
+│  └─ work/                      <span class="c">산출물 전부</span>
 ├─ .venv/
 └─ requirements.txt</code></pre>
 
-  <p>런 폴더 안의 <code>*_in.json</code>, <code>*_out.json</code>, <code>*.nc</code>는 읽지 않습니다.
-  <code>*_out.csv</code> 하나만 있으면 됩니다. 필요한 열은 다음과 같고, 나머지 열은 무시됩니다.</p>
+  <p>런 폴더의 <code>*_in.json</code>, <code>*_out.json</code>, <code>*.nc</code>는 읽지 않습니다.</p>
 
   <div class="tablewrap">
     <table>
-      <thead><tr><th>열</th><th>단위</th><th>쓰임</th></tr></thead>
+      <thead><tr><th>CSV 필수 열</th><th>단위</th><th>쓰임</th></tr></thead>
       <tbody>
-        <tr><td class="mono">time</td><td class="mono">s</td><td>격자 균일성 확인, 필요 시 스플라인 리샘플</td></tr>
+        <tr><td class="mono">time</td><td class="mono">s</td><td>격자 확인, 필요 시 리샘플</td></tr>
         <tr><td class="mono">feed</td><td class="mono">mm/min</td><td>G00 / G01 구분</td></tr>
-        <tr><td class="mono">block#</td><td>–</td><td>블록 단위 지표 집계</td></tr>
-        <tr><td class="mono">cnc_x, cnc_y, cnc_z</td><td class="mono">mm</td><td>입력 (증분으로 변환)</td></tr>
-        <tr><td class="mono">tcp_x, tcp_y, tcp_z</td><td class="mono">mm</td><td>정답 (e = TCP − CNC)</td></tr>
+        <tr><td class="mono">block#</td><td>–</td><td>블록 단위 지표</td></tr>
+        <tr><td class="mono">cnc_x, cnc_y, cnc_z</td><td class="mono">mm</td><td>입력</td></tr>
+        <tr><td class="mono">tcp_x, tcp_y, tcp_z</td><td class="mono">mm</td><td>정답</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p><code>Runs/</code>가 다른 드라이브에 있으면 경로를 환경변수로 지정합니다. 모든 스크립트는
-  <code>--set key=value</code>로 <code>config.py</code>의 어떤 값이든 덮어쓸 수 있습니다.</p>
+  <p><code>Runs/</code>가 다른 드라이브에 있거나 설정을 바꿀 때:</p>
   <pre><code>$env:TCN_RUNS_DIR = "D:\Runs"
 python code\scripts\05_train.py --set train.epochs=400 --set model.channels=64</code></pre>
 </section>
 
 <section id="run">
   <h2><span class="num">04</span>실행 순서</h2>
-  <p class="lede">번호가 곧 순서입니다. 06이 07보다 먼저인 데에는 이유가 있습니다 — 아래에 적었습니다.</p>
 
   <div class="step">
     <div class="n">00</div>
     <div class="body">
       <h4>환경 확인 <span class="file">00_check_env.py</span></h4>
-      <p class="what">GPU·CUDA·의존성 버전을 찍고, 모델을 한 번 만들어 인과성과 <code>f(0)=0</code>을 자가 점검합니다.</p>
       <pre><code>python code\scripts\00_check_env.py</code></pre>
-      <dl class="io"><dt>결과</dt><dd>콘솔 출력만. self-test OK가 나오면 다음 단계로.</dd></dl>
+      <dl class="io"><dt>결과</dt><dd>GPU·의존성 버전, 인과성·f(0)=0 자가 점검</dd></dl>
     </div>
   </div>
 
@@ -298,12 +269,10 @@ python code\scripts\05_train.py --set train.epochs=400 --set model.channels=64</
     <div class="n">01</div>
     <div class="body">
       <h4>런 스캔 <span class="file">01_scan_runs.py</span></h4>
-      <p class="what">모든 런 폴더의 CSV를 읽어 길이·격자·피드·경로 특성을 표로 만듭니다.
-      급속이송 값도 여기서 데이터로부터 검출합니다.</p>
       <pre><code>python code\scripts\01_scan_runs.py</code></pre>
       <dl class="io">
         <dt>필요</dt><dd><code>Runs/</code>의 <code>*_out.csv</code></dd>
-        <dt>결과</dt><dd><code>work/meta/index.csv</code> (런별 한 줄), <code>work/meta/machine.json</code></dd>
+        <dt>결과</dt><dd><code>work/meta/index.csv</code>, <code>machine.json</code> (급속이송 검출값)</dd>
       </dl>
     </div>
   </div>
@@ -312,19 +281,17 @@ python code\scripts\05_train.py --set train.epochs=400 --set model.channels=64</
     <div class="n">02</div>
     <div class="body">
       <h4>학습 대상 선별 <span class="file">02_select_doe.py</span></h4>
-      <p class="what">어떤 프로그램으로 학습할지 고릅니다. 기준이 세 가지 있습니다.</p>
       <pre><code><span class="c"># 전부 사용 — 신경망에는 이게 가장 낫습니다</span>
 python code\scripts\02_select_doe.py --criterion all --set select.tag=all
 
-<span class="c"># 여기(excitation) 커버리지 기준으로 50종</span>
+<span class="c"># 여기 커버리지 기준으로 50종</span>
 python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 --set select.n_programs=50</code></pre>
       <dl class="io">
-        <dt>필요</dt><dd><code>work/meta/index.csv</code></dd>
+        <dt>필요</dt><dd><code>index.csv</code></dd>
         <dt>결과</dt><dd><code>work/meta/selection_&lt;tag&gt;.txt</code>, <code>ranking.csv</code></dd>
       </dl>
-      <div class="note"><p>에폭당 크롭 수가 <code>steps_per_epoch × batch_size</code>로 고정이라
-      <strong>프로그램을 몇 개 쓰든 에폭 시간이 같습니다.</strong> 844런 전체를 써도 추가 비용은
-      캐시 1회(약 15분)와 RAM 1.5 GB뿐이고, 다양성이 최대가 됩니다.</p></div>
+      <div class="note"><p>에폭당 크롭 수가 고정이라 <strong>프로그램을 몇 개 쓰든 에폭 시간이 같습니다.</strong>
+      844런 전체를 써도 추가 비용은 캐시 1회(약 15분)와 RAM 1.5 GB뿐입니다.</p></div>
     </div>
   </div>
 
@@ -332,7 +299,6 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">03</div>
     <div class="body">
       <h4>로더 검증 <span class="file">03_validate_loader.py</span> <span class="opt">선택</span></h4>
-      <p class="what">증분에서 좌표를 되돌려 원본과 맞는지, 리샘플 오차가 허용 범위인지 확인합니다.</p>
       <pre><code>python code\scripts\03_validate_loader.py --selection all</code></pre>
       <dl class="io"><dt>결과</dt><dd><code>work/reports/loader_validation.csv</code></dd></dl>
     </div>
@@ -342,10 +308,8 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">04</div>
     <div class="body">
       <h4>과적합 테스트 <span class="file">04_overfit_test.py</span> <span class="opt">선택</span></h4>
-      <p class="what">프로그램 3개만으로 일부러 과적합시켜 봅니다. 여기서 오차가 안 내려가면
-      본 학습을 돌릴 이유가 없습니다.</p>
       <pre><code>python code\scripts\04_overfit_test.py --n 3 --epochs 40</code></pre>
-      <dl class="io"><dt>결과</dt><dd><code>work/runs/overfit/</code>, 콘솔에 수렴 여부</dd></dl>
+      <dl class="io"><dt>결과</dt><dd>프로그램 3개로 수렴하는지 확인. 여기서 안 내려가면 본 학습 불필요</dd></dl>
     </div>
   </div>
 
@@ -353,8 +317,6 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">05</div>
     <div class="body">
       <h4>본 학습 <span class="file">05_train.py</span></h4>
-      <p class="what">프로그램 단위로 train/val/test를 나누고(윈도우 단위 분할은 아예 경로가 없습니다)
-      학습합니다. 체크포인트는 절삭 구간 검증 오차로 고릅니다.</p>
       <pre><code>python code\scripts\05_train.py --selection all --set train.name=tcn_all ^
   --set model.dilations=1,2,4,8,16,32,64,128 ^
   --set model.linear_skip=True ^
@@ -363,7 +325,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
         <dt>필요</dt><dd>선별 파일, GPU</dd>
         <dt>결과</dt><dd><code>work/runs/&lt;name&gt;/</code> — <code>best.pt</code>, <code>split.json</code>,
         <code>history.json</code>, <code>config.json</code>, <code>training_curve.png</code></dd>
-        <dt>참고</dt><dd>844런 · 120 epoch 기준 약 52분 (RTX 3060 12GB)</dd>
+        <dt>소요</dt><dd>844런 · 120 epoch 기준 약 52분 (RTX 3060 12GB)</dd>
       </dl>
     </div>
   </div>
@@ -372,15 +334,13 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">06</div>
     <div class="body">
       <h4>FIR 기준선 식별 <span class="file">06_fir_baseline.py</span></h4>
-      <p class="what">같은 분할·같은 입력으로 선형 FIR을 식별합니다. 학습이 아니라 닫힌 해라
-      1,021탭에서 약 13초입니다.</p>
       <pre><code>python code\scripts\06_fir_baseline.py --run tcn_all</code></pre>
       <dl class="io">
-        <dt>필요</dt><dd><code>work/runs/&lt;name&gt;/split.json</code></dd>
-        <dt>결과</dt><dd><code>fir_baseline.npz</code>, <code>metric9_fir_*.csv</code></dd>
+        <dt>필요</dt><dd><code>split.json</code></dd>
+        <dt>결과</dt><dd><code>fir_baseline.npz</code>, <code>metric9_fir_*.csv</code> (약 13초)</dd>
       </dl>
       <div class="note"><p><strong>반드시 07보다 먼저.</strong> 07이 <code>fir_baseline.npz</code>를 찾아
-      <em>기존 그림 안에</em> FIR 곡선을 겹쳐 그리고 지표 9 표를 만듭니다. 순서를 바꾸면 FIR 없이 평가됩니다.</p></div>
+      기존 그림에 FIR을 겹쳐 그리고 지표 9 표를 만듭니다.</p></div>
     </div>
   </div>
 
@@ -388,11 +348,10 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">07</div>
     <div class="body">
       <h4>평가 <span class="file">07_evaluate.py</span></h4>
-      <p class="what">테스트 분할에서 지표 1~5와 그림 3종을 만들고, 예측 TCP를 CSV로 내보냅니다.</p>
       <pre><code>python code\scripts\07_evaluate.py --run tcn_all</code></pre>
       <dl class="io">
         <dt>필요</dt><dd>체크포인트, (권장) <code>fir_baseline.npz</code></dd>
-        <dt>결과</dt><dd><code>work/reports/&lt;name&gt;/test/</code> — 지표 CSV, <code>fig1~3_*.png</code>,
+        <dt>결과</dt><dd><code>work/reports/&lt;name&gt;/test/</code> — 지표 1~5 CSV, <code>fig1~3_*.png</code>,
         <code>summary.json</code>, <code>tcp/*.csv</code></dd>
       </dl>
     </div>
@@ -402,12 +361,10 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
     <div class="n">08</div>
     <div class="body">
       <h4>TCN vs FIR 비교 <span class="file">08_compare_fir_tcn.py</span></h4>
-      <p class="what">같은 테스트 프로그램에서 두 모델을 나란히 세우고, 진동 그림(전체·확대·잔차·스펙트럼)을 그립니다.
-      07이 내보낸 CSV를 읽으므로 <strong>torch도 GPU도 필요 없습니다.</strong></p>
       <pre><code>python code\scripts\08_compare_fir_tcn.py --run tcn_all</code></pre>
       <dl class="io">
-        <dt>필요</dt><dd>07의 <code>tcp/*.csv</code></dd>
-        <dt>결과</dt><dd><code>work/reports/&lt;name&gt;/comparison/</code> — <code>comparison_per_program.csv</code>,
+        <dt>필요</dt><dd>07의 <code>tcp/*.csv</code> — torch·GPU 불필요</dd>
+        <dt>결과</dt><dd><code>comparison/</code> — <code>comparison_per_program.csv</code>,
         <code>coverage.csv</code>, <code>fig_vibration_*.png</code></dd>
       </dl>
     </div>
@@ -416,12 +373,11 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
   <h3>선택 단계</h3>
   <div class="tablewrap">
     <table>
-      <thead><tr><th>파일</th><th>무엇을 재나</th></tr></thead>
       <tbody>
-        <tr><td class="mono">09_sweep_ndoe.py</td><td>프로그램 수를 늘릴 때 오차가 어디서 포화하는지</td></tr>
-        <tr><td class="mono">10_sweep_rf.py</td><td>수용영역(100 / 200 / 300 ms …)을 바꿀 때의 오차</td></tr>
+        <tr><td class="mono">09_sweep_ndoe.py</td><td>프로그램 수 대비 오차 포화점</td></tr>
+        <tr><td class="mono">10_sweep_rf.py</td><td>수용영역 대비 오차</td></tr>
         <tr><td class="mono">11_resample_robustness.py</td><td>시간 격자가 흐트러진 입력에 대한 강건성</td></tr>
-        <tr><td class="mono">infer.py</td><td>임의 타임스탬프 → 표준 격자 → 예측 → 원래 타임스탬프로 역보간</td></tr>
+        <tr><td class="mono">infer.py</td><td>임의 타임스탬프 → 표준 격자 → 예측 → 역보간</td></tr>
       </tbody>
     </table>
   </div>
@@ -429,37 +385,34 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
 
 <section id="perf">
   <h2><span class="num">05</span>성능</h2>
-  <p class="lede">홀드아웃 127개 프로그램. 학습에도 검증에도 쓰이지 않은 프로그램들이며,
-  지표는 <code>e = TCP − CNC</code> 벡터 오차의 RMSE입니다.</p>
+  <p>홀드아웃 127개 프로그램. 지표는 <code>e = TCP − CNC</code> 벡터 오차의 RMSE.</p>
 
   <div class="keyfact">
-    <div><div class="v">0.044 µm</div><div class="k">정삭 구간 예측 오차 (중앙값)</div></div>
+    <div><div class="v">0.044 µm</div><div class="k">정삭 구간 (중앙값)</div></div>
     <div><div class="v">0.994–0.999</div><div class="k">진동 진폭비</div></div>
     <div><div class="v">0.998–0.9999</div><div class="k">진동 위상 일치도</div></div>
-    <div><div class="v">52 분</div><div class="k">학습 시간 (590런 · 120 epoch)</div></div>
+    <div><div class="v">52 분</div><div class="k">학습 (590런 · 120 epoch)</div></div>
   </div>
 
   <figure>
     <img src="fig_vibration.png" alt="정삭 조건에서 실제 추종오차와 TCN 예측이 겹쳐 그려진 시계열, 그리고 같은 구간의 예측 잔차">
-    <figcaption>정삭 조건(F500)에서 가장 진동이 심한 250 ms 구간. 왼쪽에서 두 곡선은 구분되지 않습니다.
-    오른쪽이 실제 차이로, TCN은 ±0.1 µm, FIR은 0 근처에 붙습니다.</figcaption>
+    <figcaption>정삭(F500)에서 가장 진동이 심한 250 ms 구간. 왼쪽은 두 곡선이 구분되지 않고,
+    오른쪽이 실제 차이입니다.</figcaption>
   </figure>
 
-  <h3>비교 대상인 FIR이란</h3>
-  <p>같은 6채널 입력에서 같은 3채널 출력으로 가는 <strong>선형 유한임펄스응답 필터</strong>입니다.
-  축마다 1,021탭 × 6채널 = 6,126개 계수를 가지며, 예측은 단순한 합성곱입니다.</p>
+  <h3>비교 대상인 FIR</h3>
+  <ul>
+    <li>같은 6채널 입력 → 3채널 출력의 <strong>선형 필터</strong>. 축당 1,021탭 × 6채널 = 6,126 계수</li>
+    <li>학습이 아니라 <strong>닫힌 해</strong>. 약 13초</li>
+    <li>이 데이터의 CNC→TCP 관계가 사실상 정확히 선형이므로, 참고치가 아니라 <strong>이론적 최적해</strong></li>
+  </ul>
   <div class="formula">e<sub>a</sub>[n] = Σ<sub>b=1..6</sub> Σ<sub>k=0..1020</sub> g<sub>b,a</sub>[k] · u<sub>b</sub>[n−k]</div>
-  <p>학습하지 않습니다. 정규방정식을 한 번 쌓고 Cholesky 분해로 한 번에 풉니다. 설계행렬이
-  합성곱 행렬이라 <code>XᵀX</code>가 블록-Toeplitz 구조를 가지므로, 상호상관을 FFT로 계산해
-  행렬을 직접 곱하지 않습니다 — 그래서 6,126 × 3 = 18,378개 계수를 <strong>13초</strong>에 구합니다.</p>
-  <p>이 데이터에서 CNC→TCP 관계가 사실상 정확히 선형이기 때문에, FIR은 단순한 참고치가 아니라
-  <strong>이 문제의 이론적 최적해</strong>입니다. 비교의 기준으로 쓰는 이유가 여기 있습니다.</p>
 
   <div class="tablewrap">
     <table>
       <thead>
         <tr><th>모델</th><th class="num">중앙값</th><th class="num">p90</th><th class="num">최대</th>
-            <th class="num">정삭 구간 중앙값</th><th class="num">식별 / 학습</th></tr>
+            <th class="num">정삭 중앙값</th><th class="num">소요</th></tr>
       </thead>
       <tbody>
         <tr class="tcn"><td>TCN</td><td class="num">0.118</td><td class="num">0.764</td><td class="num">6.14</td>
@@ -469,36 +422,30 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
       </tbody>
     </table>
   </div>
-  <p style="font-size:.86rem;color:var(--fg-dim);margin-top:-8px">단위 µm. 정삭 구간은 절삭이송 1,500 mm/min 이하 67개 프로그램.</p>
+  <p style="font-size:.85rem;color:var(--fg-dim);margin-top:-6px">단위 µm. 정삭 = 절삭이송 1,500 mm/min 이하 67개.</p>
 
   <figure>
     <img src="fig_accuracy.png" alt="이송속도별 TCP 예측 오차 상자그림과, TCN·FIR의 누적 분포 비교">
-    <figcaption>왼쪽: 이송속도가 올라갈수록 오차가 커지지만, 신호 자체가 64배 커지므로 상대오차는 오히려 줄어듭니다.
-    오른쪽: 두 모델의 분포가 가로축에서 약 100배 떨어져 있습니다.</figcaption>
+    <figcaption>왼쪽: 이송속도가 오르면 오차도 커지지만 신호가 64배 커지므로 상대오차는 줄어듭니다.
+    오른쪽: 두 분포가 가로축에서 약 100배 떨어져 있습니다.</figcaption>
   </figure>
 
-  <h3>읽는 법</h3>
   <ul>
-    <li><strong>정삭 구간에서는 충분합니다.</strong> 67개 중 66개가 0.5 µm 이내이고, 중앙값은 0.044 µm입니다.
-    0.5 µm를 넘는 1개는 서브밀리미터 반전 경로입니다.</li>
-    <li><strong>진동은 재현됩니다.</strong> 진폭비가 0.994–0.999, 파워가중 위상 일치도가 0.998–0.9999로,
-    크기와 위상 모두 맞습니다.</li>
-    <li><strong>큰 오차는 고이송에 몰립니다.</strong> 3 µm를 넘는 경우는 10,000 mm/min의 두 프로그램뿐이고,
-    0.5 µm를 넘는 10개는 전부 3,000 mm/min 이상입니다.</li>
-    <li><strong>FIR과는 약 100배 차이가 납니다.</strong> 정확도의 한계가 아니라 최적화의 한계입니다 —
-    선형 해가 신경망의 가설공간 안에 들어 있는데도 경사하강이 거기까지 수렴하지 못합니다.
-    문제의 조건수가 매우 크기 때문입니다.</li>
+    <li>정삭 구간 67개 중 66개가 0.5 µm 이내. 넘는 1개는 서브밀리미터 반전 경로</li>
+    <li>진폭·위상 모두 재현됨</li>
+    <li>3 µm 초과는 10,000 mm/min의 2개뿐. 0.5 µm 초과 10개는 전부 3,000 mm/min 이상</li>
+    <li>FIR과 약 100배 차이 — 정확도 한계가 아니라 최적화 한계. 선형 해가 신경망의 가설공간 안에
+    있는데도 경사하강이 거기까지 수렴하지 못함</li>
   </ul>
 
   <div class="note">
-    <p><strong>주의:</strong> 여기서 말하는 오차는 <em>TCP 궤적 예측</em>의 오차입니다.
-    형상오차(form error)가 아닙니다. 형상오차를 말하려면 예측한 TCP를 외부 형상 파이프라인에 넣어
-    실제 가공면과 비교해야 하고, 그 단계는 이 저장소 밖에 있습니다.</p>
+    <p>여기서 말하는 오차는 <strong>TCP 궤적 예측</strong>의 오차입니다. 형상오차가 아닙니다.
+    형상오차는 예측 TCP를 외부 형상 파이프라인에 넣어야 하고, 그 단계는 이 저장소 밖에 있습니다.</p>
   </div>
 </section>
 
 <footer>
-  <p>구 시뮬레이터 DOE 844런 기준 · 학습 실행 <code>tcn_all</code> · 수용영역 510 ms ·
+  <p>구 시뮬레이터 DOE 844런 · 학습 실행 <code>tcn_all</code> · 수용영역 510 ms ·
   모든 수치는 <code>work/reports/tcn_all/</code>에서 재생성됩니다.</p>
 </footer>
 
