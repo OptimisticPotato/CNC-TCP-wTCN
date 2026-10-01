@@ -5,11 +5,11 @@ programs, on the SAME held-out programs. Answers three questions with numbers:
     2. how well does a filter identified on ONE operation predict ANOTHER
     3. does either reproduce the vibration (time domain + spectrum)
 
-    python scripts/11_compare_fir_tcn.py --run tcn_r1
-    python scripts/11_compare_fir_tcn.py --run tcn_r1 --taps 509   # match the RF
+    python scripts/08_compare_fir_tcn.py --run tcn_r1
+    python scripts/08_compare_fir_tcn.py --run tcn_r1 --taps 509   # match the RF
 
-The network's predictions are read from the ``tcp/*.csv`` that 06_evaluate.py
-exports, so this script needs no GPU and no torch -- run 06_evaluate.py first.
+The network's predictions are read from the ``tcp/*.csv`` that 07_evaluate.py
+exports, so this script needs no GPU and no torch -- run 07_evaluate.py first.
 Those exports are rounded to 1 nm, which is a floor of ~0.001 um on any error
 computed from them; the FIR is evaluated on the raw CSVs at full precision
 instead, because a well-identified FIR lands at that same 0.001 um.
@@ -250,7 +250,7 @@ def main() -> int:
             pred["TCN"] = tcn
             e_true_tcn = d["e_true"][:n]
         else:
-            print(f"  ! no TCN export for {name} (run 06_evaluate.py first)")
+            print(f"  ! no TCN export for {name} (run 07_evaluate.py first)")
 
         for model, v in pred.items():
             ok01 = m01 & np.isfinite(v).all(axis=1)

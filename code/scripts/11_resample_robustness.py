@@ -6,7 +6,7 @@ says so explicitly. This script re-measures it on the network: the input CNC is
 degraded to a coarser / jittered / lossy sampling, restored to the standard grid
 with a cubic spline, and pushed through the model. The target never moves.
 
-    python scripts/09_resample_robustness.py --run tcn_r1
+    python scripts/11_resample_robustness.py --run tcn_r1
 """
 from __future__ import annotations
 

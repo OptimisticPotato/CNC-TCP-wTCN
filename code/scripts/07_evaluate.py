@@ -1,7 +1,7 @@
 """Evaluation report. SPEC section 8, metrics 1-5 and all three figures.
 
-    python scripts/06_evaluate.py --run tcn_r1
-    python scripts/06_evaluate.py --run tcn_r1 --split val
+    python scripts/07_evaluate.py --run tcn_r1
+    python scripts/07_evaluate.py --run tcn_r1 --split val
 
 Metrics 6, 7 and 8 have their own scripts (07/08/09) because each needs more
 than one trained model.
@@ -32,7 +32,7 @@ def main() -> int:
     ap.add_argument("--max-programs", type=int, default=0)
     ap.add_argument("--fir", default=None,
                     help="FIR baseline .npz; default: the run's fir_baseline.npz "
-                         "if 10_fir_baseline.py has been run")
+                         "if 06_fir_baseline.py has been run")
     ap.add_argument("--no-fir", action="store_true",
                     help="ignore the FIR baseline even if it is there")
     add_config_args(ap)
@@ -63,7 +63,7 @@ def main() -> int:
             print(f"FIR reference : {fir_info['taps']} taps "
                   f"({fir_info['taps'] * cfg.data.dt * 1e3:.1f} ms) from {fir_path.name}")
         else:
-            print("FIR reference : none (run scripts/10_fir_baseline.py to add one)")
+            print("FIR reference : none (run scripts/06_fir_baseline.py to add one)")
     print(f"evaluating {len(names)} '{args.split}' programs on {device}\n")
 
     rep = cfg.paths.report_dir / args.run / args.split
@@ -229,6 +229,8 @@ def main() -> int:
     }
     (rep / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(f"\nreport -> {rep}")
+    print(f"\nnext: python scripts/08_compare_fir_tcn.py --run {args.run}   "
+          f"(TCN vs FIR table + vibration figures)")
     return 0
 
 

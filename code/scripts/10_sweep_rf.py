@@ -4,8 +4,8 @@ The FIR work measured 100 ms -> 30 nm, 200 ms -> 4 nm, 300 ms -> 2 nm of
 truncation error, i.e. longer is better with diminishing returns. This sweep
 records what the TCN actually gains.
 
-    python scripts/08_sweep_rf.py --selection r1
-    python scripts/08_sweep_rf.py --selection r1 --set eval.rf_sweep_ms=100,200,300,500
+    python scripts/10_sweep_rf.py --selection r1
+    python scripts/10_sweep_rf.py --selection r1 --set eval.rf_sweep_ms=100,200,300,500
 """
 from __future__ import annotations
 

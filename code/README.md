@@ -54,22 +54,31 @@ forward → 3항 손실 → backward → optimizer step → 청크 추론)를 �
 
 ## 2. 실행 순서
 
+번호가 곧 실행 순서입니다.
+
 ```powershell
+python scripts\00_check_env.py                      # GPU/의존성 확인
 python scripts\01_scan_runs.py                      # 전 런 스캔 → work/meta/index.csv
-python scripts\02_select_doe.py                     # 32종 선별 → selection_r1.txt
+python scripts\02_select_doe.py                     # 학습 대상 선별 → selection_r1.txt
 python scripts\03_validate_loader.py --selection r1 # SPEC 7-1 로더 검증
 python scripts\04_overfit_test.py                   # SPEC 7-2 과적합 테스트
 python scripts\05_train.py --selection r1           # SPEC 7-3 본 학습
-python scripts\06_evaluate.py --run tcn_r1          # SPEC 8 지표 1~5 + 그림 3종
+python scripts\06_fir_baseline.py --run tcn_r1      # 비교용 FIR 식별 (평가보다 먼저)
+python scripts\07_evaluate.py --run tcn_r1          # SPEC 8 지표 1~5 + 그림 3종 + 지표 9
+python scripts\08_compare_fir_tcn.py --run tcn_r1   # TCN vs FIR 표 + 진동 그림
 ```
+
+06이 07보다 먼저인 이유: `07_evaluate`가 `fir_baseline.npz`를 찾아 **기존 그림 안에**
+FIR 곡선을 겹쳐 그리고 지표 9 표를 만듭니다. 순서를 바꾸면 FIR 없이 평가됩니다.
+08은 07이 내보낸 `tcp/*.csv`를 읽으므로 07 뒤여야 합니다.
 
 포화점·수용영역·리샘플 강건성 (지표 6/7/8):
 
 ```powershell
 python scripts\02_select_doe.py --set select.n_programs=64 --set select.tag=r2
-python scripts\07_sweep_ndoe.py --selection r2      # 지표 6: DOE 종수 대비 오차
-python scripts\08_sweep_rf.py  --selection r1       # 지표 7: 100/200/300 ms
-python scripts\09_resample_robustness.py --run tcn_r1   # 지표 8
+python scripts\09_sweep_ndoe.py --selection r2      # 지표 6: DOE 종수 대비 오차
+python scripts\10_sweep_rf.py  --selection r1       # 지표 7: 100/200/300 ms
+python scripts\11_resample_robustness.py --run tcn_r1   # 지표 8
 ```
 
 추론 (임의 타임스탬프 → 표준 격자 → TCN → 원 타임스탬프 역보간):
@@ -150,7 +159,7 @@ $env:TCN_RUNS_DIR = "E:\data\Runs"
 | `tcn_cnc2tcp/trainer.py` | 학습 루프, 검증, 체크포인트 |
 | `tcn_cnc2tcp/metrics.py` | SPEC 8 지표 1~5 |
 | `tcn_cnc2tcp/fir.py` | 선형 FIR 식별 (정규방정식 + Cholesky, 블록-Toeplitz/FFT 고속경로) |
-| `scripts/11_compare_fir_tcn.py` | TCN vs FIR 비교 + 진동 시각화 (torch 불필요) |
+| `scripts/08_compare_fir_tcn.py` | TCN vs FIR 비교 + 진동 시각화 (torch 불필요) |
 | `tcn_cnc2tcp/plots.py` | SPEC 8 그림 3종 |
 | `infer.py` | 추론 파이프라인 |
 | `excluded_runs.txt` | 학습에서 제외하는 런 목록 (이유 주석 포함) |
@@ -184,7 +193,7 @@ work/
 | 6.4 cubic spline | `resample`, PCHIP은 §6.4 재측정용으로만 남김 |
 | 7 프로그램 단위 분할 | `dataset.split_programs` — 윈도우 분할 경로는 존재하지 않음 |
 | 8 지표 1~8 | `metrics` + 스크립트 06/07/08/09 |
-| 0 "FIR은 비교 대상 아님" | 기본 파이프라인에 없음. `10_fir_baseline.py`로 명시적으로 요청할 때만 |
+| 0 "FIR은 비교 대상 아님" | 기본 파이프라인에 없음. `06_fir_baseline.py`로 명시적으로 요청할 때만 |
 | 3.3 DOE 선별 | `scripts/02_select_doe.py` — 기본 criterion은 여기(excitation) 커버리지 |
 
 ### DOE 선별 기준
@@ -378,7 +387,7 @@ FIR 모델 상호전이 테스트에서 같은 그룹끼리는 잔차 비율 1.0
 ## 9. 지표 9 — 선형 FIR 기준선
 
 스펙 §0은 FIR이 산출물도 합격 기준도 아니라고 명시합니다. 기본 파이프라인에는 없고
-`10_fir_baseline.py`를 직접 돌릴 때만 만들어집니다. 목적은 **비선형성이 무엇을 벌어줬는가**
+`06_fir_baseline.py`를 직접 돌릴 때만 만들어집니다. 목적은 **비선형성이 무엇을 벌어줬는가**
 하나입니다.
 
 FIR은 TCN과 동일한 조건을 받습니다: 같은 `split.json`, 같은 6채널 증분 입력, 같은 마스크.
@@ -429,7 +438,7 @@ Gram이라 `XᵀX = toeplitz(R) - TᵀT`로 보정합니다. `fit(method="auto")
 
 ### 결정적 결과 — 몇 개가 아니라 어떤 것
 
-`11_compare_fir_tcn.py`가 `tcn_r1`에서 낸 숫자입니다. 테스트 5개 프로그램의 계열
+`08_compare_fir_tcn.py`가 `tcn_r1`에서 낸 숫자입니다. 테스트 5개 프로그램의 계열
 (ARC_TRANSITION / HELIX_ENTRY / CORNER_SEQUENCE / FREEFORM_POCKET_CLEARING)은
 학습 22개에 **하나도 없습니다.**
 
@@ -471,10 +480,10 @@ Gram이라 `XᵀX = toeplitz(R) - TᵀT`로 보정합니다. `fit(method="auto")
   정적 검토만 거쳤다. 로더·선별·리샘플·지표·그림은 실제 데이터로 돌려 확인했다.
   `00_check_env.py --selftest`가 그 공백을 메우도록 만들어져 있다.
 * **SPEC 8 지표 5(최종 형상오차)는 여기서 끝나지 않는다.** 형상오차 파이프라인이
-  이 저장소 밖에 있으므로, `06_evaluate.py`는 예측 TCP를 프로그램별 CSV로 내보내고
+  이 저장소 밖에 있으므로, `07_evaluate.py`는 예측 TCP를 프로그램별 CSV로 내보내고
   (`work/reports/<run>/<split>/tcp/*.csv`) 대신 **법선 방향 편차**를 근사 지표로
   보고한다. 근사라는 사실은 코드와 출력 양쪽에 명시돼 있다.
 * **스펙 §2의 시간창 기대치(100 ms → 30 nm 등)는 다른 장비 값이다.** 이 데이터의
-  실제 개선폭은 `08_sweep_rf.py`로 측정해야 한다.
+  실제 개선폭은 `10_sweep_rf.py`로 측정해야 한다.
 * TCN이 FIR보다 나을 것이라는 보장은 없다. 스펙도 합격 기준을 두지 않는다 —
   지표를 산출해 보고할 뿐이다.

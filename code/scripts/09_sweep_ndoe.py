@@ -4,8 +4,8 @@ Trains the same architecture on nested subsets of the training programs while
 val/test stay fixed, so the curve answers one question only: at how many DOE
 programs does the error stop falling?
 
-    python scripts/07_sweep_ndoe.py --selection r2
-    python scripts/07_sweep_ndoe.py --selection r2 --set eval.ndoe_sweep=4,8,16,32
+    python scripts/09_sweep_ndoe.py --selection r2
+    python scripts/09_sweep_ndoe.py --selection r2 --set eval.ndoe_sweep=4,8,16,32
 """
 from __future__ import annotations
 

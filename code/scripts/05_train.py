@@ -80,7 +80,8 @@ def main() -> int:
     training_curve(out / "training_curve.png", res["history"])
     print(f"\nbest checkpoint : {res['best_path']}")
     print(f"best score      : {res['best']:.4f} um")
-    print(f"next            : python scripts/06_evaluate.py --run {cfg.train.name}")
+    print(f"next            : python scripts/06_fir_baseline.py --run {cfg.train.name}")
+    print("                  then 07_evaluate.py, then 08_compare_fir_tcn.py")
     return 0
 
 

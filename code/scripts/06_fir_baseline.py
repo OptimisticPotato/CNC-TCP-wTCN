@@ -1,13 +1,13 @@
 """Identify the 6-input 3-output FIR model for a trained run. Metric 9.
 
-    python scripts/10_fir_baseline.py --run tcn_r1               # taps = TCN RF
-    python scripts/10_fir_baseline.py --run tcn_r1 --taps 200    # the slides' 200
+    python scripts/06_fir_baseline.py --run tcn_r1               # taps = TCN RF
+    python scripts/06_fir_baseline.py --run tcn_r1 --taps 200    # the slides' 200
 
 Ordinary least squares, normal equations, Cholesky. No training loop, no
 constraints -- the model is identified, not learned. It reads the run's
 ``split.json`` so it sees the same training programs and the same six increment
 channels as the network, and it writes ``fir_baseline.npz`` next to the
-checkpoint; 06_evaluate.py finds it there and draws it into the existing
+checkpoint; 07_evaluate.py finds it there and draws it into the existing
 figures, plus a metric-9 table comparing the two models row by row.
 
 Two knobs exist only because this dataset behaves differently from the one the
@@ -85,7 +85,7 @@ def main() -> int:
                    dc_penalty=args.dc_penalty)
     path = fir.save(fir.default_path(cfg, args.run), info)
     h = info["h"]
-    # every CSV below lands here, and 06_evaluate.py -- which normally creates
+    # every CSV below lands here, and 07_evaluate.py -- which normally creates
     # it -- has not run yet when the FIR is identified first
     report_dir = cfg.paths.report_dir / args.run
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -129,7 +129,7 @@ def main() -> int:
         encoding="utf-8")
 
     print(f"\nwrote {path}")
-    print(f"next: python scripts/06_evaluate.py --run {args.run}   "
+    print(f"next: python scripts/07_evaluate.py --run {args.run}   "
           f"(the FIR now appears in the figures and in metric 9)")
     return 0
 

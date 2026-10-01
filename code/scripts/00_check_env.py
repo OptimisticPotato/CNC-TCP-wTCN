@@ -36,8 +36,11 @@ def selftest(cfg) -> int:
 
     zero = model.check_zero_input(device=device)
     leak = model.check_causality(device=device)
+    homo = model.check_homogeneity(device=device)
     print(f"zero in -> zero out: {zero:.3e}   (must be 0)")
     print(f"future leak        : {leak:.3e}   (must be 0)")
+    print(f"scale non-linearity: {homo:.3e}   (0 = f(2u)=2f(u) exactly, so "
+          f"amplitude saturation is NOT representable; non-zero with tanh)")
     if zero != 0.0 or leak != 0.0:
         print("FAILED: the model breaks a structural guarantee")
         return 1
