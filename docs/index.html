@@ -382,8 +382,84 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
   </div>
 </section>
 
+<section id="use">
+  <h2><span class="num">05</span>추론 — 다른 데이터가 들어오면</h2>
+
+  <pre><code>from infer import Predictor
+p   = Predictor("tcn_all")
+tcp = p.predict(t, cnc, feed)      <span class="c"># 임의 타임스탬프, 임의 dt</span></code></pre>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>입력 열</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="mono">time, cnc_x/y/z</td><td>필수</td></tr>
+        <tr><td class="mono">feed</td><td>선택. 없으면 전부 G01로 간주 — 급속 구간 예측이 나빠집니다</td></tr>
+        <tr><td class="mono">tcp_x/y/z</td><td>선택. 있으면 오차를 함께 보고</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>그대로 받는 것</h3>
+  <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><td style="white-space:nowrap">불균일 간격</td>
+            <td>문제되지 않습니다. 평균 0.5 ms에 간격만 ±40% 흔들어도 추가 오차 0.0008–0.0105 µm.
+            중요한 건 간격의 균일성이 아니라 평균 샘플링률입니다</td></tr>
+        <tr><td style="white-space:nowrap">0.5 ms가 아닌 dt</td>
+            <td>스플라인으로 표준 격자에 올립니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>직접 확인해야 하는 것</h3>
+  <div class="note">
+    <p><code>01_scan_runs.py</code>는 dt &gt; 2.7 ms인 런을 거부하지만,
+    <strong><code>Predictor</code>에는 상한이 없습니다.</strong> 얼마나 거친 입력이든 받아서 보간합니다.</p>
+  </div>
+
+  <p>허용치는 dt가 아니라 <strong>이송속도</strong>가 정합니다. 피드가 높을수록 같은 시간에 궤적이
+  더 많이 변하므로 더 촘촘해야 합니다.</p>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>절삭이송</th><th class="num">1.0 ms</th><th class="num">2.0 ms</th>
+                 <th class="num">2.5 ms</th><th class="num">4.0 ms</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">F500</td><td class="num">0.001</td><td class="num">0.003</td>
+            <td class="num">0.005</td><td class="num">0.014</td></tr>
+        <tr><td class="mono">F1500</td><td class="num">0.006</td><td class="num">0.017</td>
+            <td class="num">0.025</td><td class="num">0.078</td></tr>
+        <tr><td class="mono">F15000</td><td class="num">0.047</td><td class="num">0.098</td>
+            <td class="num">0.141</td><td class="num">0.479</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.85rem;color:var(--fg-dim);margin-top:-6px">0.5 ms 원본을 솎아 스플라인으로
+  되돌렸을 때의 추가 오차, µm. 0.5 ms 원본 기준은 0.0005–0.0009 µm.</p>
+
+  <ul>
+    <li>정삭(F≤1500) 용도 — <strong>2 ms까지 무해</strong></li>
+    <li>고피드까지 쓸 경우 — <strong>1 ms 이하</strong>. 2.7 ms 한계는 이 경우 너무 느슨합니다</li>
+  </ul>
+
+  <h3>신뢰할 수 없는 구간</h3>
+  <ul>
+    <li><strong>앞 510 ms</strong> — 이력이 없습니다. 모델은 입력 시작 이전을 정지 상태(TCP = CNC)로
+    가정하므로, 가공 중간부터 잘라낸 구간을 넣으면 그 앞부분은 버려야 합니다</li>
+    <li><strong>510 ms보다 짧은 입력</strong> — 전체가 여기에 해당합니다</li>
+    <li><code>feed</code>가 없는 입력 — 급속 구간이 절삭으로 간주됩니다</li>
+  </ul>
+
+  <div class="note">
+    <p>현재 844런은 전부 native 0.5 ms이고 리샘플된 런은 0개입니다. 위 숫자는 원본을 솎아서
+    만든 것으로, 리샘플 경로가 실제 거친 데이터로 검증된 적은 아직 없습니다.</p>
+  </div>
+</section>
+
 <section id="perf">
-  <h2><span class="num">05</span>성능</h2>
+  <h2><span class="num">06</span>성능</h2>
   <p>홀드아웃 127개 프로그램. 지표는 <strong>추종오차 예측 오차</strong> — 예측한 <code>e</code>와 실제 <code>e</code>의 차이, 3축 벡터 RMSE입니다. 가공면과 비교한 형상오차가 아닙니다.</p>
 
   <div class="keyfact">
