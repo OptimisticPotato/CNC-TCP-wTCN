@@ -375,7 +375,7 @@ python code\scripts\02_select_doe.py --criterion excitation --set select.tag=r4 
       <tbody>
         <tr><td class="mono">09_sweep_ndoe.py</td><td>프로그램 수 대비 오차 포화점</td></tr>
         <tr><td class="mono">10_sweep_rf.py</td><td>수용영역 대비 오차</td></tr>
-        <tr><td class="mono">11_resample_robustness.py</td><td>시간 격자가 흐트러진 입력에 대한 강건성</td></tr>
+        <tr><td class="mono">11_resample_robustness.py</td><td>거친·불균일·누락 격자에 대한 TCN의 강건성 (05절 표의 TCN 판)</td></tr>
         <tr><td class="mono">infer.py</td><td>임의 타임스탬프 → 표준 격자 → 예측 → 역보간</td></tr>
       </tbody>
     </table>
@@ -405,7 +405,7 @@ tcp = p.predict(t, cnc, feed)      <span class="c"># 임의 타임스탬프, 임
     <table>
       <tbody>
         <tr><td style="white-space:nowrap">불균일 간격</td>
-            <td>문제되지 않습니다. 평균 0.5 ms에 간격만 ±40% 흔들어도 추가 오차 0.0008–0.0105 µm.
+            <td>평균 0.5 ms에 간격만 ±40% 흔들어도 추가 오차 0.0008–0.0105 µm(선형 FIR 기준).
             중요한 건 간격의 균일성이 아니라 평균 샘플링률입니다</td></tr>
         <tr><td style="white-space:nowrap">0.5 ms가 아닌 dt</td>
             <td>스플라인으로 표준 격자에 올립니다</td></tr>
@@ -437,7 +437,15 @@ tcp = p.predict(t, cnc, feed)      <span class="c"># 임의 타임스탬프, 임
     </table>
   </div>
   <p style="font-size:.85rem;color:var(--fg-dim);margin-top:-6px">0.5 ms 원본을 솎아 스플라인으로
-  되돌렸을 때의 추가 오차, µm. 0.5 ms 원본 기준은 0.0005–0.0009 µm.</p>
+  되돌렸을 때의 추가 오차, µm. 0.5 ms 원본 기준은 0.0005–0.0009 µm.
+  <strong>선형 FIR로 측정한 값입니다.</strong></p>
+
+  <div class="note">
+    <p><strong>TCN은 이 표로 측정되지 않았습니다.</strong> 다만 학습 때 같은 손상을 증강으로
+    겪었습니다 — 크롭의 50 %가 1/2/4/8배 솎임, 간격 지터 0–50 %, 5 % 샘플 누락을 거쳐
+    스플라인으로 복원됩니다. FIR은 그런 적이 없으므로 TCN이 더 강건할 것으로 보지만,
+    확인하려면 <code>11_resample_robustness.py --run &lt;name&gt;</code>를 돌리십시오.</p>
+  </div>
 
   <ul>
     <li>정삭(F≤1500) 용도 — <strong>2 ms까지 무해</strong></li>
